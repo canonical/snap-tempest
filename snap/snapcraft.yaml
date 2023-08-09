@@ -22,39 +22,8 @@ parts:
   tempest:
     plugin: python
     source: .
-    python-packages:
-      - tempest
-      - barbican-tempest-plugin
-      - blazar-tempest-plugin
-      - cinder-tempest-plugin
-      - cloudkitty-tempest-plugin
-      - cyborg-tempest-plugin
-      - designate-tempest-plugin
-      - ec2api-tempest-plugin
-      - freezer-tempest-plugin
-      - glance-tempest-plugin
-      - heat-tempest-plugin
-      - ironic-tempest-plugin
-      - keystone-tempest-plugin
-      - kuryr-tempest-plugin
-      - magnum-tempest-plugin
-      - manila-tempest-plugin
-      - mistral-tempest-tests
-      - monasca-tempest-plugin
-      - murano-tempest-plugin
-      - neutron-tempest-plugin
-      - octavia-tempest-plugin
-      - oswin-tempest-plugin
-      - sahara-tests
-      - senlin-tempest-plugin
-      - solum-tempest-plugin
-      - telemetry-tempest-plugin
-      - trove-tempest-plugin
-      - venus-tempest-plugin
-      - vitrage-tempest-plugin
-      - watcher-tempest-plugin
-      - zaqar-tempest-plugin
-      - zun-tempest-plugin
+    python-requirements:
+      - requirements.txt
     override-prime: |
       craftctl default
       craftctl set version="$(tempest --version | awk '{print $2}')"
