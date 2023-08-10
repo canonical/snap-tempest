@@ -18,7 +18,7 @@ apps:
       - network-observe
       - network
       - home
-   discover:
+  discover:
     command: bin/discover-tempest-config
     plugs:
       - home
