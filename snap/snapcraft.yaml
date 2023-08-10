@@ -18,6 +18,14 @@ apps:
       - network-observe
       - network
       - home
+   discover:
+    command: bin/discover-tempest-config
+    plugs:
+      - home
+      - network
+    aliases:
+      - discover-tempest-config
+
 parts:
   tempest:
     plugin: python
