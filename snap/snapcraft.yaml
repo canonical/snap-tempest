@@ -23,8 +23,6 @@ apps:
     plugs:
       - home
       - network
-    aliases:
-      - discover-tempest-config
 
 parts:
   tempest:
