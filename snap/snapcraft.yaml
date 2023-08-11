@@ -9,24 +9,28 @@ description: |
 confinement: strict
 grade: stable
 base: core22
+assumes:
+- command-chain
 
 apps:
   tempest:
-    command: tempest-wrapper
+    command: bin/tempest
+    command-chain: [bin/tempest-wrapper]
     completer: usr/share/bash-completion/completions/tempest
     plugs:
       - network-observe
       - network
       - home
+    environment:
+      TESTS: $SNAP_DATA/tempest_test_lists
 
 parts:
   wrapper:
     plugin: dump
     source: ./snap/local
     source-type: local
-    override-build: |
-      cp tempest-wrapper $CRAFT_PART_INSTALL/
-      cp -r tempest_test_lists $CRAFT_PART_INSTALL/
+    organize:
+      tempest-wrapper: bin/tempest-wrapper
   tempest:
     plugin: python
     source: .
