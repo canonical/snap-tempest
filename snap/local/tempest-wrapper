@@ -1,0 +1,8 @@
+#!/bin/bash
+original_args="$*"
+tests_dir=$SNAP_DATA/tempest_test_lists
+
+final_args=$(echo $original_args | sed "s|\$TESTS|$tests_dir|g")
+
+IFS=' ' read -a arr <<< "$final_args"
+exec "$SNAP/bin/tempest" ${arr[@]}

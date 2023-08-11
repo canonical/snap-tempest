@@ -12,13 +12,21 @@ base: core22
 
 apps:
   tempest:
-    command: bin/tempest
+    command: tempest-wrapper
     completer: usr/share/bash-completion/completions/tempest
     plugs:
       - network-observe
       - network
       - home
+
 parts:
+  wrapper:
+    plugin: dump
+    source: ./snap/local
+    source-type: local
+    override-build: |
+      cp tempest-wrapper $CRAFT_PART_INSTALL/
+      cp -r tempest_test_lists $CRAFT_PART_INSTALL/
   tempest:
     plugin: python
     source: .
