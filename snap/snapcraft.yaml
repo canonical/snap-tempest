@@ -20,6 +20,8 @@ apps:
       - home
   discover:
     command: bin/discover-tempest-config
+    environment:
+      SSL_CERT_FILE: $OS_CACERT 
     plugs:
       - home
       - network
