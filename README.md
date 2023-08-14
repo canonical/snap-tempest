@@ -9,7 +9,6 @@ The tempest snap can be installed directly from the snap store:
 
     sudo snap install --edge tempest
 
-
 ## Plugins
 
 The image is baked with all plugins listed in the [tempest release notes] and those cannot
@@ -48,6 +47,17 @@ List of plugins:
 - watcher-tempest-plugin
 - zaqar-tempest-plugin
 - zun-tempest-plugin
+
+
+## This snap includes
+
+### python-tempestconf
+
+This snapshot includes [python-tempestconf](https://opendev.org/openinfra/python-tempestconf),
+which automatically generates a tempest configuration based on your cloud.
+
+It provided single CLI options [`discover-tempest-config`](https://docs.opendev.org/openinfra/python-tempestconf/latest/cli/cli_options.html#discover-tempest-config),
+which is provided in snap via `tempest.discover`.
 
 ---
 [tempest release notes]: https://docs.openstack.org/releasenotes/tempest/

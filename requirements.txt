@@ -1,4 +1,7 @@
 tempest==35.0.0
+# parts
+python-tempestconf==3.4.0
+# plugins
 barbican-tempest-plugin==2.0.0
 blazar-tempest-plugin==0.10.1
 cinder-tempest-plugin==1.8.1
