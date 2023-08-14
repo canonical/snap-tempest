@@ -12,8 +12,8 @@ The tempest snap can be installed directly from the snap store:
 
 ## Plugins
 
-The image is baked with all plugins listed in the release notes and those cannot be
-removed or updated. Currently, it is not possible to add new plugins or use your own.
+The image is baked with all plugins listed in the [tempest release notes] and those cannot
+be removed or updated. Currently, it is not possible to add new plugins or use your own.
 
 List of plugins:
 
@@ -48,3 +48,6 @@ List of plugins:
 - watcher-tempest-plugin
 - zaqar-tempest-plugin
 - zun-tempest-plugin
+
+---
+[tempest release notes]: https://docs.openstack.org/releasenotes/tempest/
