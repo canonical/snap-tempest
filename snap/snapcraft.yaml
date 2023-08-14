@@ -24,6 +24,17 @@ apps:
     environment:
       TESTS: $SNAP_DATA/tempest_test_lists
 
+  discover:
+    command: bin/discover-tempest-config
+    environment:
+      # NOTE (rgildein): python-tempestconf uses urllib3 and it needs SSL_CERT_FILE to be
+      # set if ca certificates are not in the standard locations.
+      # https://www.openssl.org/docs/manmaster/man3/SSL_CTX_load_verify_locations.html
+      SSL_CERT_FILE: $OS_CACERT
+    plugs:
+      - home
+      - network
+
 parts:
   wrapper:
     plugin: dump
