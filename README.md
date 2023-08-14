@@ -15,11 +15,11 @@ To run Tempest, please follow the steps in [Tempest QuickStart](https://docs.ope
 
 The tempest snap provides a set of pre-defined test lists with different focuses. For quickly verifying the behavior of the objective cloud and making sure tempest is correctly set up, you can run tests listed in the `readonly-quick.txt` file:
 
-    tempest run --load-list '@BUILDIN_TESTLISTS/readonly-quick.txt' 
+    tempest run --load-list '@BUILTIN_TESTLISTS/readonly-quick.txt' 
 
-`@BUILDIN_TESTLISTS` keyword will be automatically replaced by the full path of the directory storing the built-in test lists.
+`@BUILTIN_TESTLISTS` keyword will be automatically replaced by the full path of the directory storing the built-in test lists.
 
-**Note**: the single-quotation marks around the test list file path is required if `@BUILDIN_TESTLISTS` keyword is used (in another words, when running tempest with a built-in test list file). Fail to do that will result in wrong path error.
+**Note**: the single-quotation marks around the test list file path is required if `@BUILTIN_TESTLISTS` keyword is used (in another words, when running tempest with a built-in test list file). Fail to do that will result in wrong path error.
 
 
 ## This snap includes
