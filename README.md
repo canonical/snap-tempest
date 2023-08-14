@@ -53,11 +53,12 @@ List of plugins:
 
 ### python-tempestconf
 
-This snapshot includes [python-tempestconf](https://opendev.org/openinfra/python-tempestconf),
-which automatically generates a tempest configuration based on your cloud.
+This snapshot includes [python-tempestconf], which automatically generates a tempest
+configuration based on your cloud.
 
-It provided single CLI options [`discover-tempest-config`](https://docs.opendev.org/openinfra/python-tempestconf/latest/cli/cli_options.html#discover-tempest-config),
-which is provided in snap via `tempest.discover`.
+It provided single CLI options [`discover-tempest-config`] which is provided in snap
+via `tempest.discover`.
 
----
 [tempest release notes]: https://docs.openstack.org/releasenotes/tempest/
+[python-tempestconf]: https://opendev.org/openinfra/python-tempestconf
+[`discover-tempest-config`]: https://docs.opendev.org/openinfra/python-tempestconf/latest/cli/cli_options.html#discover-tempest-config
