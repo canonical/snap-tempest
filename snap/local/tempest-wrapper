@@ -1,0 +1,8 @@
+#!/bin/bash
+original_args="$*"
+tests_dir=$TESTS
+
+final_args=$(echo $original_args | sed "s|@BUILTIN_TESTLISTS|$tests_dir|g")
+
+IFS=' ' read -a arr <<< "$final_args"
+exec ${arr[@]}
