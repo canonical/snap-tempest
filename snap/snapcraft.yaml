@@ -47,6 +47,21 @@ parts:
     source: .
     python-requirements:
       - requirements.txt
+    python-packages:
+      # NOTE (mertkirpici): confluent-kafka versions are compatible with the same
+      # librdkafka versions. jammy repositories have librdkafka==1.8
+      # https://github.com/confluentinc/confluent-kafka-python/releases
+      - confluent-kafka==1.8.2
+    build-packages:
+      - libssl-dev
+      - libffi-dev
+      - libxml2-dev
+      - libxslt1-dev
+      - libpq-dev
+      - librdkafka-dev
+      - rustc
+      - cargo
+      - pkg-config
     override-prime: |
       craftctl default
       craftctl set version="$(tempest --version | awk '{print $2}')"
