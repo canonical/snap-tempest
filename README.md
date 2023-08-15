@@ -11,8 +11,9 @@ The tempest snap can be installed directly from the snap store:
 
 ## Plugins
 
-The image is baked with all plugins listed in the [tempest release notes] and those cannot
-be removed or updated. Currently, it is not possible to add new plugins or use your own.
+The image is baked with all plugins listed in the [OpenStack release notes] and those
+cannot be removed or updated. Currently, it is not possible to add new plugins or use
+your own.
 
 List of plugins:
 
@@ -76,7 +77,7 @@ configuration based on your cloud.
 It provided single CLI options [`discover-tempest-config`] which is provided in snap
 via `tempest.discover`.
 
-[tempest release notes]: https://docs.openstack.org/releasenotes/tempest/
+[OpenStack release notes]: https://releases.openstack.org/antelope/index.html#tempest-plugins
 [python-tempestconf]: https://opendev.org/openinfra/python-tempestconf
 [`discover-tempest-config`]: https://docs.opendev.org/openinfra/python-tempestconf/latest/cli/cli_options.html#discover-tempest-config
 [Tempest QuickStart]: https://docs.openstack.org/tempest/latest/overview.html#quickstart
