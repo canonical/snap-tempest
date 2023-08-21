@@ -7,11 +7,11 @@ test suite, Tempest.
 
 The tempest snap can be installed directly from the snap store:
 
-    sudo snap install --edge tempest
+    sudo snap install [install-OPTIONS] tempest
 
 ## Plugins
 
-The image is baked with all plugins listed in the [OpenStack release notes] and those
+The snap provides all the plugins listed in the [OpenStack release notes] and those
 cannot be removed or updated. Currently, it is not possible to add new plugins or use
 your own.
 
@@ -51,31 +51,31 @@ List of plugins:
 
 
 ## Quickstart
-To run Tempest, please follow the steps in [Tempest QuickStart] documentation.
+To run Tempest, please follow the steps in the [Tempest QuickStart] documentation.
 
 The tempest snap provides a set of pre-defined test lists with different focuses.
-For quickly verifying the behavior of the objective cloud and making sure tempest
-is correctly set up, you can run tests listed in the `readonly-quick.txt` file:
+For quickly verifying the behavior of the target cloud and making sure tempest is
+correctly set up, you can run tests listed in the `readonly-quick.txt` file:
 
     tempest run --load-list '@BUILTIN_TESTLISTS/readonly-quick.txt' 
 
-`@BUILTIN_TESTLISTS` keyword will be automatically replaced by the full path of
-the directory storing the built-in test lists.
+The `@BUILTIN_TESTLISTS` keyword will be automatically replaced by the full path
+of the directory storing the built-in test lists.
 
 **Note**: the single-quotation marks around the test list file path is required
-if `@BUILTIN_TESTLISTS` keyword is used (in another words, when running tempest
-with a built-in test list file). Fail to do that will result in wrong path error.
+if the `@BUILTIN_TESTLISTS` keyword is used (in other words, when running tempest
+with a built-in test list file). Failure to do so will result in a wrong path
+error.
 
 
 ## This snap includes
 
 ### python-tempestconf
+This snap includes [python-tempestconf], which automatically generates a tempest
+configuration appropriate for your cloud.
 
-This snapshot includes [python-tempestconf], which automatically generates a tempest
-configuration based on your cloud.
-
-It provided single CLI options [`discover-tempest-config`] which is provided in snap
-via `tempest.discover`.
+It provides a single CLI command [`discover-tempest-config`] which is aliased in
+the snap as `tempest.discover`.
 
 [OpenStack release notes]: https://releases.openstack.org/antelope/index.html#tempest-plugins
 [python-tempestconf]: https://opendev.org/openinfra/python-tempestconf
