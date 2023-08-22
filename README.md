@@ -53,11 +53,9 @@ List of plugins:
 ## Quickstart
 To run Tempest, please follow the steps in the [Tempest QuickStart] documentation.
 
-The tempest snap provides a set of pre-defined test lists with different focuses.
-For quickly verifying the behavior of the target cloud and making sure tempest is
-correctly set up, you can run tests listed in the `readonly-quick.txt` file:
-
-    tempest run --load-list '@BUILTIN_TESTLISTS/readonly-quick.txt' 
+## Test Lists
+The tempest snap provides a set of pre-defined test lists with different profiles
+and a mechanism to specify them easily.
 
 The `@BUILTIN_TESTLISTS` keyword will be automatically replaced by the full path
 of the directory storing the built-in test lists.
@@ -67,6 +65,17 @@ if the `@BUILTIN_TESTLISTS` keyword is used (in other words, when running tempes
 with a built-in test list file). Failure to do so will result in a wrong path
 error.
 
+### readonly-quick
+For quickly verifying the behavior of the target cloud and making sure tempest
+is correctly set up
+
+    tempest run --load-list '@BUILTIN_TESTLISTS/readonly-quick'
+
+### refstack-2022.11
+Version 2022.11 of the [RefStack] guidelines.
+The list includes the required and advisory tests of all platforms.
+
+    tempest run --load-list '@BUILTIN_TESTLISTS/refstack-2022.11'
 
 ## This snap includes
 
@@ -81,3 +90,4 @@ the snap as `tempest.discover`.
 [python-tempestconf]: https://opendev.org/openinfra/python-tempestconf
 [`discover-tempest-config`]: https://docs.opendev.org/openinfra/python-tempestconf/latest/cli/cli_options.html#discover-tempest-config
 [Tempest QuickStart]: https://docs.openstack.org/tempest/latest/overview.html#quickstart
+[RefStack]: (https://refstack.openstack.org/#/)
