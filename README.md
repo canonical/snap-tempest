@@ -66,7 +66,7 @@ with a built-in test list file). Failure to do so will result in a wrong path
 error.
 
 ### readonly-quick
-For quickly verifying the behavior of the objective cloud and making sure tempest
+For quickly verifying the behavior of the target cloud and making sure tempest
 is correctly set up
 
     tempest run --load-list '@BUILTIN_TESTLISTS/readonly-quick'
