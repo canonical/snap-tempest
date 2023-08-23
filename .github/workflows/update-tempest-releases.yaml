@@ -1,0 +1,35 @@
+name: Update Tempest Releases
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '43 1 * * 1'
+
+jobs:
+  update-antelope:
+    uses: ./.github/workflows/update-snapcraft.yaml
+    with:
+      openstack-release: antelope
+  update-zed:
+    uses: ./.github/workflows/update-snapcraft.yaml
+    with:
+      openstack-release: zed
+  update-yoga:
+    uses: ./.github/workflows/update-snapcraft.yaml
+    with:
+      openstack-release: yoga
+  update-xena:
+    uses: ./.github/workflows/update-snapcraft.yaml
+    with:
+      openstack-release: xena
+  update-wallaby:
+    uses: ./.github/workflows/update-snapcraft.yaml
+    with:
+      openstack-release: wallaby
+  update-victoria:
+    uses: ./.github/workflows/update-snapcraft.yaml
+    with:
+      openstack-release: victoria
+  update-ussuri:
+    uses: ./.github/workflows/update-snapcraft.yaml
+    with:
+      openstack-release: ussuri
