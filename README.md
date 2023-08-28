@@ -3,6 +3,12 @@
 This repository contains the source code of the snap for the OpenStack integration
 test suite, Tempest.
 
+Alongside with the tempest project, this snap also includes the currently maintained tempest plugins,
+the [python-tempestconf] package and several curated test lists to provide ease of use.
+
+The [python-tempestconf] package provides [`discover-tempest-config`] command line
+application that automatically generates a tempest configuration appropriate for your cloud.
+
 ## Installing this snap
 
 The tempest snap can be installed directly from the snap store:
@@ -51,7 +57,25 @@ List of plugins:
 
 
 ## Quickstart
-To run Tempest, please follow the steps in the [Tempest QuickStart] documentation.
+Running the tempest smoke suite against a deployed OpenStack cloud would look like this.
+
+```
+# Install the tempest snap from the latest/edge channel
+sudo snap install tempest --edge
+
+# Have the cloud credentials in the environment
+source novarc
+
+# Initialize a tempest workspace directory called cloud-01
+tempest init cloud-01 && cd cloud-01
+
+# Generate the tempest configuration specific to the cloud
+discover-tempest-config
+
+# Run the tempest smoke suite
+tempest run --smoke
+```
+For more information please refer to the [Tempest QuickStart] and [python-tempestconf] documentation.
 
 ## Test Lists
 The tempest snap provides a set of pre-defined test lists with different profiles
@@ -76,15 +100,6 @@ Version 2022.11 of the [RefStack] guidelines.
 The list includes the required and advisory tests of all platforms.
 
     tempest run --load-list '@BUILTIN_TESTLISTS/refstack-2022.11'
-
-## This snap includes
-
-### python-tempestconf
-This snap includes [python-tempestconf], which automatically generates a tempest
-configuration appropriate for your cloud.
-
-It provides a single CLI command [`discover-tempest-config`] which is aliased in
-the snap as `tempest.discover`.
 
 [OpenStack release notes]: https://releases.openstack.org/antelope/index.html#tempest-plugins
 [python-tempestconf]: https://opendev.org/openinfra/python-tempestconf
