@@ -14,7 +14,7 @@ jobs:
         with:
           ref: stable/${{ inputs.openstack-release }}
       - name: Install Workflow Dependencies
-        run: pip install feedparser pygit2 pyyaml semver
+        run: pip install -r requirements-dev.txt
       - name: Update Snapcraft Yaml
         id: update_snapcraft
         run: |
@@ -23,7 +23,7 @@ jobs:
           # branches
           git fetch origin
           git restore --source origin/${{ github.event.repository.default_branch }} tools/
-          ./tools/update-snapcraft ${{ inputs.openstack-release }}
+          python3 tools/update_snapcraft.py ${{ inputs.openstack-release }}
           git diff --exit-code \
           && echo "create_pr=0" >> $GITHUB_OUTPUT \
           || echo "create_pr=1" >> $GITHUB_OUTPUT
