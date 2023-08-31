@@ -24,6 +24,7 @@ jobs:
           git fetch origin
           git restore --source origin/${{ github.event.repository.default_branch }} tools/
           python3 tools/update_snapcraft.py ${{ inputs.openstack-release }}
+          git checkout -- tools/
           git diff --exit-code snap/snapcraft.yaml \
           && echo "create_pr=0" >> $GITHUB_OUTPUT \
           || echo "create_pr=1" >> $GITHUB_OUTPUT
@@ -34,11 +35,11 @@ jobs:
         run: |
           git config user.name "Github Action Bot"
           git config user.email "<>"
-          git checkout -B automation/${{ inputs.openstack-release }}
+          git checkout -B release/${{ inputs.openstack-release }}
           git add snap/snapcraft.yaml
-          git commit -m "chore(${{ inputs.openstack-release }}): update snapcraft"
-          git push -f origin automation/${{ inputs.openstack-release }}
+          git commit -m "release(${{ inputs.openstack-release }}): update snapcraft.yaml"
+          git push -f origin release/${{ inputs.openstack-release }}
           gh pr create \
             -B stable/${{ inputs.openstack-release }} \
-            -H automation/${{ inputs.openstack-release }} \
+            -H release/${{ inputs.openstack-release }} \
             -f || true
