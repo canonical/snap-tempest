@@ -13,8 +13,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           ref: stable/${{ inputs.openstack-release }}
-      - name: Install Workflow Dependencies
-        run: pip install -r requirements-dev.txt
+      - name: Install tox
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes tox
       - name: Update Snapcraft Yaml
         id: update_snapcraft
         run: |
@@ -23,7 +25,7 @@ jobs:
           # branches
           git fetch origin
           git restore --source origin/${{ github.event.repository.default_branch }} tools/
-          python3 tools/update_snapcraft.py ${{ inputs.openstack-release }}
+          tox -e release -- ${{ inputs.openstack-release }}
           git checkout -- tools/
           git diff --exit-code snap/snapcraft.yaml \
           && echo "create_pr=0" >> $GITHUB_OUTPUT \

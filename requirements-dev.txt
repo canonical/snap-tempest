@@ -1,4 +1,0 @@
-feedparser
-pygit2
-pyyaml
-semver
