@@ -85,8 +85,8 @@ def clone_releases_repository():
     If the repository exists, just fetch origin and fast-forward
     to the tip of the current remote default branch.
 
-    If fast forwarding not possible, e.g. repo is dirty.
-    Remove the repo and reclone.
+    If fast forwarding is not possible, e.g. repo is dirty,
+    remove the repo and reclone.
     """
     RELEASES_REPO_PATH.parent.mkdir(parents=True, exist_ok=True)
     try:
