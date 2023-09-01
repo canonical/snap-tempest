@@ -36,6 +36,7 @@ skip_glob = [
 
 [tool.pylint]
 max-line-length = 99
+unsafe-load-any-extension = "y"
 ignore-paths = [
   ".eggs",
   ".git",

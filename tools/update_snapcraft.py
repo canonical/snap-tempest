@@ -6,6 +6,7 @@ the OpenStack releases repository and the PYPI RSS feed and modifies the
 snapcraft.yaml file inplace to reflect the changes, should there be any.
 """
 import logging
+import shutil
 import sys
 from argparse import ArgumentParser
 from functools import cmp_to_key
@@ -19,7 +20,7 @@ import yaml
 logger = logging.getLogger(__name__)
 
 RELEASES_REPO_URL = "https://opendev.org/openstack/releases.git"
-RELEASES_REPO_DIR = "/tmp/releases"
+RELEASES_REPO_PATH = Path("~/.local/share/snap-tempest/releases").expanduser()
 OPENDEV_BASE_URL = "git+https://opendev.org"
 OPENSTACK_REPO_URL_FMT = OPENDEV_BASE_URL + "/openstack/{project}.git@{ref}"
 OPENINFRA_REPO_URL_FMT = OPENDEV_BASE_URL + "/openinfra/{project}.git@{ref}"
@@ -29,7 +30,10 @@ PYPI_RSS_FEED_FMT = "https://pypi.org/rss/project/{project}/releases.xml"
 def parse_args():
     """Parse command line arguments."""
     parser = ArgumentParser()
-    parser.add_argument("release", help="OpenStack release")
+    parser.add_argument("-r", "--release", required=True, type=str, help="OpenStack release")
+    parser.add_argument(
+        "-o", "--output", default="/dev/stdout", type=str, help="Output file. Defaults to stdout"
+    )
     return parser.parse_args()
 
 
@@ -47,7 +51,7 @@ def get_latest_revision_from_release_file(path):
 def get_latest_tempest_revision(release):
     """Return the requirements entry for the latest tempest revision."""
     return get_latest_revision_from_release_file(
-        Path(RELEASES_REPO_DIR) / "deliverables" / release / "tempest.yaml"
+        RELEASES_REPO_PATH / "deliverables" / release / "tempest.yaml"
     )
 
 
@@ -56,7 +60,7 @@ def get_latest_plugin_requirements(release):
     result = []
     plugin_release_file_paths = [
         entry
-        for entry in (Path(RELEASES_REPO_DIR) / "deliverables" / release).iterdir()
+        for entry in (RELEASES_REPO_PATH / "deliverables" / release).iterdir()
         if entry.is_file() and yaml.safe_load(entry.read_text())["type"] == "tempest-plugin"
     ]
     for path in plugin_release_file_paths:
@@ -75,9 +79,58 @@ def get_latest_tempestconf_requirements():
     return OPENINFRA_REPO_URL_FMT.format(project=project, ref=latest_revision)
 
 
+def clone_releases_repository():
+    """Clone the OpenStack releases repository.
+
+    If the repository exists, just fetch origin and fast-forward
+    to the tip of the current remote default branch.
+
+    If fast forwarding not possible, e.g. repo is dirty.
+    Remove the repo and reclone.
+    """
+    RELEASES_REPO_PATH.parent.mkdir(parents=True, exist_ok=True)
+    try:
+        pygit2.clone_repository(RELEASES_REPO_URL, RELEASES_REPO_PATH)
+    except ValueError as error:
+        repo_path = pygit2.discover_repository(RELEASES_REPO_PATH)
+        if not repo_path:
+            raise RuntimeError(
+                f"{RELEASES_REPO_PATH} is not empty and not a git repository"
+            ) from error
+
+        repo = pygit2.Repository(repo_path)
+        repo.checkout("refs/heads/master")
+        repo.remotes["origin"].fetch()
+        remote_master_id = repo.lookup_reference("refs/remotes/origin/master").target
+        analysis_result, _ = repo.merge_analysis(remote_master_id)
+
+        if analysis_result & pygit2.GIT_MERGE_ANALYSIS_UP_TO_DATE:
+            logger.info("Release repository up to date")
+            return
+
+        if analysis_result & pygit2.GIT_MERGE_ANALYSIS_FASTFORWARD:
+            # pygit2 does not expose a simple way to perform a ff merge
+            # the following is a manual ff merge:
+            # checkout to the remote master reference object
+            # then update the local master to match it
+            logger.info("Updating release repository")
+            repo.checkout_tree(repo.get(remote_master_id))
+            try:
+                master_ref = repo.lookup_reference("refs/heads/master")
+                master_ref.set_target(remote_master_id)
+            except KeyError:
+                repo.create_branch("master", repo.get(remote_master_id))
+            repo.head.set_target(remote_master_id)
+        else:
+            # ff merge not available. We might as well reclone. it will be messy otherwise
+            logger.info("Release repository not clean. Recloning.")
+            shutil.rmtree(RELEASES_REPO_PATH)
+            pygit2.clone_repository(RELEASES_REPO_URL, RELEASES_REPO_PATH)
+
+
 def main(args):
     """Entry point to the application."""
-    pygit2.clone_repository(RELEASES_REPO_URL, RELEASES_REPO_DIR)
+    clone_releases_repository()
     snapcraft_yaml_path = Path(__file__).parent.parent / "snap" / "snapcraft.yaml"
     snapcraft_yaml = yaml.safe_load(snapcraft_yaml_path.read_text())
 
@@ -88,7 +141,7 @@ def main(args):
         get_latest_tempestconf_requirements(),
     ]
 
-    snapcraft_yaml_path.write_text(yaml.safe_dump(snapcraft_yaml, sort_keys=False))
+    Path(args.output).write_text(yaml.safe_dump(snapcraft_yaml, sort_keys=False), encoding="utf-8")
     return 0
 
 
