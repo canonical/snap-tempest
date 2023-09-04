@@ -8,6 +8,7 @@ snapcraft.yaml file inplace to reflect the changes, should there be any.
 import logging
 import shutil
 import sys
+import tempfile
 from argparse import ArgumentParser
 from functools import cmp_to_key
 from pathlib import Path
@@ -20,7 +21,7 @@ import yaml
 logger = logging.getLogger(__name__)
 
 RELEASES_REPO_URL = "https://opendev.org/openstack/releases.git"
-RELEASES_REPO_PATH = Path("~/.local/share/snap-tempest/releases").expanduser()
+RELEASES_REPO_PATH = Path(tempfile.gettempdir()) / "releases"
 OPENDEV_BASE_URL = "git+https://opendev.org"
 OPENSTACK_REPO_URL_FMT = OPENDEV_BASE_URL + "/openstack/{project}.git@{ref}"
 OPENINFRA_REPO_URL_FMT = OPENDEV_BASE_URL + "/openinfra/{project}.git@{ref}"
@@ -33,6 +34,17 @@ def parse_args():
     parser.add_argument("-r", "--release", required=True, type=str, help="OpenStack release")
     parser.add_argument(
         "-o", "--output", default="/dev/stdout", type=str, help="Output file. Defaults to stdout"
+    )
+    parser.add_argument(
+        "--reuse",
+        default=False,
+        action="store_true",
+        help=(
+            "Reuse the existing releases repository. "
+            "When this option is given, "
+            "the script will not delete the clone releases repository upon exiting. "
+            "This option is helpful for running this script locally in a sequential fashion."
+        ),
     )
     return parser.parse_args()
 
@@ -79,58 +91,28 @@ def get_latest_tempestconf_requirements():
     return OPENINFRA_REPO_URL_FMT.format(project=project, ref=latest_revision)
 
 
-def clone_releases_repository():
+def clone_releases_repository(reuse):
     """Clone the OpenStack releases repository.
 
-    If the repository exists, just fetch origin and fast-forward
-    to the tip of the current remote default branch.
-
-    If fast forwarding is not possible, e.g. repo is dirty,
-    remove the repo and reclone.
+    If the reuse flag is given, try to reuse the existing repository.
     """
-    RELEASES_REPO_PATH.parent.mkdir(parents=True, exist_ok=True)
-    try:
+    if not RELEASES_REPO_PATH.exists():
+        logger.info("Cloning releases repository")
         pygit2.clone_repository(RELEASES_REPO_URL, RELEASES_REPO_PATH)
-    except ValueError as error:
+    elif reuse:
         repo_path = pygit2.discover_repository(RELEASES_REPO_PATH)
         if not repo_path:
             raise RuntimeError(
-                f"{RELEASES_REPO_PATH} is not empty and not a git repository"
-            ) from error
-
-        repo = pygit2.Repository(repo_path)
-        repo.checkout("refs/heads/master")
-        repo.remotes["origin"].fetch()
-        remote_master_id = repo.lookup_reference("refs/remotes/origin/master").target
-        analysis_result, _ = repo.merge_analysis(remote_master_id)
-
-        if analysis_result & pygit2.GIT_MERGE_ANALYSIS_UP_TO_DATE:
-            logger.info("Release repository up to date")
-            return
-
-        if analysis_result & pygit2.GIT_MERGE_ANALYSIS_FASTFORWARD:
-            # pygit2 does not expose a simple way to perform a ff merge
-            # the following is a manual ff merge:
-            # checkout to the remote master reference object
-            # then update the local master to match it
-            logger.info("Updating release repository")
-            repo.checkout_tree(repo.get(remote_master_id))
-            try:
-                master_ref = repo.lookup_reference("refs/heads/master")
-                master_ref.set_target(remote_master_id)
-            except KeyError:
-                repo.create_branch("master", repo.get(remote_master_id))
-            repo.head.set_target(remote_master_id)
-        else:
-            # ff merge not available. We might as well reclone. it will be messy otherwise
-            logger.info("Release repository not clean. Recloning.")
-            shutil.rmtree(RELEASES_REPO_PATH)
-            pygit2.clone_repository(RELEASES_REPO_URL, RELEASES_REPO_PATH)
+                f"Reuse flag given however {RELEASES_REPO_PATH} is not a git repository."
+            )
+        logger.info("Using the repository at %s", repo_path)
+    else:
+        raise RuntimeError(f"Reuse flag not given and {RELEASES_REPO_PATH} exists.")
 
 
 def main(args):
     """Entry point to the application."""
-    clone_releases_repository()
+    clone_releases_repository(args.reuse)
     snapcraft_yaml_path = Path(__file__).parent.parent / "snap" / "snapcraft.yaml"
     snapcraft_yaml = yaml.safe_load(snapcraft_yaml_path.read_text())
 
@@ -142,6 +124,8 @@ def main(args):
     ]
 
     Path(args.output).write_text(yaml.safe_dump(snapcraft_yaml, sort_keys=False), encoding="utf-8")
+    if not args.reuse:
+        shutil.rmtree(RELEASES_REPO_PATH)
     return 0
 
 
