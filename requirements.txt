@@ -12,7 +12,7 @@ ec2api-tempest-plugin==1.6.1
 freezer-tempest-plugin==3.0.1
 glance-tempest-plugin==0.6.0
 heat-tempest-plugin==1.7.1
-ironic-tempest-plugin==2.6.1
+ironic-tempest-plugin==2.7.0
 keystone-tempest-plugin==0.12.0
 kuryr-tempest-plugin==0.15.0
 magnum-tempest-plugin==2.0.0
