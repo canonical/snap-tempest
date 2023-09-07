@@ -105,6 +105,10 @@ def clone_releases_repository(reuse):
             raise RuntimeError(
                 f"Reuse flag given however {RELEASES_REPO_PATH} is not a git repository."
             )
+        if pygit2.Repository(repo_path).remotes["origin"].url != RELEASES_REPO_URL:
+            raise RuntimeError(
+                f"Repository: {repo_path} does not list {RELEASES_REPO_URL} as origin."
+            )
         logger.info("Using the repository at %s", repo_path)
     else:
         raise RuntimeError(f"Reuse flag not given and {RELEASES_REPO_PATH} exists.")
