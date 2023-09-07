@@ -40,8 +40,7 @@ def parse_args():
         default=False,
         action="store_true",
         help=(
-            "Reuse the existing releases repository. "
-            "When this option is given, "
+            "Reuse the existing releases repository. When this option is given, "
             "the script will not delete the clone releases repository upon exiting. "
             "This option is helpful for running this script locally in a sequential fashion."
         ),
