@@ -16,7 +16,7 @@ ironic-tempest-plugin==2.6.1
 keystone-tempest-plugin==0.12.0
 kuryr-tempest-plugin==0.15.0
 magnum-tempest-plugin==2.0.0
-manila-tempest-plugin==1.13.0
+manila-tempest-plugin==1.14.0
 mistral-tempest-tests==2.1.1
 monasca-tempest-plugin==2.6.0
 murano-tempest-plugin==2.6.0
