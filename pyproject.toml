@@ -36,6 +36,7 @@ skip_glob = [
 
 [tool.pylint]
 max-line-length = 99
+extension-pkg-allow-list = "pygit2"
 ignore-paths = [
   ".eggs",
   ".git",

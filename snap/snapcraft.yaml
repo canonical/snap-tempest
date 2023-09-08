@@ -2,40 +2,35 @@ name: tempest
 adopt-info: tempest
 summary: OpenStack Integration Test Suite
 description: |
- Tempest is a set of integration tests to be run against a live
- OpenStack cluster. Tempest has batteries of tests for OpenStack
- API validation, Scenarios, and other specific tests useful in
- validating an OpenStack deployment.
+  Tempest is a set of integration tests to be run against a live
+  OpenStack cluster. Tempest has batteries of tests for OpenStack
+  API validation, Scenarios, and other specific tests useful in
+  validating an OpenStack deployment.
 license: Apache-2.0
 confinement: strict
 grade: stable
 base: core22
 assumes:
 - command-chain
-
 apps:
   tempest:
     command: bin/tempest
-    command-chain: [bin/tempest-wrapper]
+    command-chain:
+    - bin/tempest-wrapper
     completer: usr/share/bash-completion/completions/tempest
     plugs:
-      - network-observe
-      - network
-      - home
+    - network-observe
+    - network
+    - home
     environment:
       TESTS: $SNAP_DATA/tempest_test_lists
-
   discover:
     command: bin/discover-tempest-config
     environment:
-      # NOTE (rgildein): python-tempestconf uses urllib3 and it needs SSL_CERT_FILE to be
-      # set if ca certificates are not in the standard locations.
-      # https://www.openssl.org/docs/manmaster/man3/SSL_CTX_load_verify_locations.html
       SSL_CERT_FILE: $OS_CACERT
     plugs:
-      - home
-      - network
-
+    - home
+    - network
 parts:
   wrapper:
     plugin: dump
@@ -45,24 +40,53 @@ parts:
       tempest-wrapper: bin/tempest-wrapper
   tempest:
     plugin: python
-    source: .
-    python-requirements:
-      - requirements.txt
+    source: https://opendev.org/openstack/tempest.git
+    source-type: git
+    source-tag: 34.1.0
     python-packages:
-      # NOTE (mertkirpici): confluent-kafka versions are compatible with the same
-      # librdkafka versions. jammy repositories have librdkafka==1.8
-      # https://github.com/confluentinc/confluent-kafka-python/releases
-      - confluent-kafka==1.8.2
+    - confluent-kafka==1.8.2
+    - git+https://opendev.org/openstack/barbican-tempest-plugin.git@2.0.0
+    - git+https://opendev.org/openstack/blazar-tempest-plugin.git@0.10.1
+    - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.8.1
+    - git+https://opendev.org/openstack/cloudkitty-tempest-plugin.git@2.7.1
+    - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@2.1.0
+    - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.17.0
+    - git+https://opendev.org/openstack/ec2api-tempest-plugin.git@1.6.1
+    - git+https://opendev.org/openstack/freezer-tempest-plugin.git@3.0.1
+    - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.6.0
+    - git+https://opendev.org/openstack/heat-tempest-plugin.git@1.7.1
+    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.6.1
+    - git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.12.0
+    - git+https://opendev.org/openstack/kuryr-tempest-plugin.git@0.14.1
+    - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.0.0
+    - git+https://opendev.org/openstack/manila-tempest-plugin.git@1.13.0
+    - git+https://opendev.org/openstack/mistral-tempest-plugin.git@2.1.1
+    - git+https://opendev.org/openstack/monasca-tempest-plugin.git@2.6.0
+    - git+https://opendev.org/openstack/murano-tempest-plugin.git@2.6.0
+    - git+https://opendev.org/openstack/neutron-tempest-plugin.git@2.2.0
+    - git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.3.0
+    - git+https://opendev.org/openstack/oswin-tempest-plugin.git@2.1.0
+    - git+https://opendev.org/openstack/senlin-tempest-plugin.git@1.7.1
+    - git+https://opendev.org/openstack/solum-tempest-plugin.git@2.6.0
+    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@1.9.0
+    - git+https://opendev.org/openstack/trove-tempest-plugin.git@2.0.1
+    - git+https://opendev.org/openstack/venus-tempest-plugin.git@3.0.0
+    - git+https://opendev.org/openstack/vitrage-tempest-plugin.git@6.1.1
+    - git+https://opendev.org/openstack/watcher-tempest-plugin.git@2.6.0
+    - git+https://opendev.org/openstack/zaqar-tempest-plugin.git@1.6.0
+    - git+https://opendev.org/openstack/zun-tempest-plugin.git@4.7.1
+    - git+https://opendev.org/openinfra/python-tempestconf.git@3.4.0
     build-packages:
-      - libssl-dev
-      - libffi-dev
-      - libxml2-dev
-      - libxslt1-dev
-      - libpq-dev
-      - librdkafka-dev
-      - rustc
-      - cargo
-      - pkg-config
+    - libssl-dev
+    - libffi-dev
+    - libxml2-dev
+    - libxslt1-dev
+    - libpq-dev
+    - librdkafka-dev
+    - rustc
+    - cargo
+    - pkg-config
+    - git
     override-prime: |
       craftctl default
       craftctl set version="$(tempest --version | awk '{print $2}')"
