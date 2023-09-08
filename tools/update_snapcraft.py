@@ -26,6 +26,7 @@ OPENDEV_BASE_URL = "git+https://opendev.org"
 OPENSTACK_REPO_URL_FMT = OPENDEV_BASE_URL + "/openstack/{project}.git@{ref}"
 OPENINFRA_REPO_URL_FMT = OPENDEV_BASE_URL + "/openinfra/{project}.git@{ref}"
 PYPI_RSS_FEED_FMT = "https://pypi.org/rss/project/{project}/releases.xml"
+ADDITIONAL_REQUIREMENTS = ["confluent-kafka==1.8.2"]
 
 
 def parse_args():
@@ -121,7 +122,7 @@ def main(args):
 
     snapcraft_yaml["parts"]["tempest"]["source-tag"] = get_latest_tempest_revision(args.release)
     snapcraft_yaml["parts"]["tempest"]["python-packages"] = [
-        "confluent-kafka==1.8.2",
+        *ADDITIONAL_REQUIREMENTS,
         *get_latest_plugin_requirements(args.release),
         get_latest_tempestconf_requirements(),
     ]
