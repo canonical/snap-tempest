@@ -26,7 +26,7 @@ OPENDEV_BASE_URL = "git+https://opendev.org"
 OPENSTACK_REPO_URL_FMT = OPENDEV_BASE_URL + "/openstack/{project}.git@{ref}"
 OPENINFRA_REPO_URL_FMT = OPENDEV_BASE_URL + "/openinfra/{project}.git@{ref}"
 PYPI_RSS_FEED_FMT = "https://pypi.org/rss/project/{project}/releases.xml"
-ADDITIONAL_REQUIREMENTS = ["confluent-kafka==1.8.2"]
+ADDITIONAL_REQUIREMENTS = ["confluent-kafka==1.2.0"]
 
 
 def parse_args():
