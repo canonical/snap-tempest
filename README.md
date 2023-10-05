@@ -15,6 +15,17 @@ The tempest snap can be installed directly from the snap store:
 
     sudo snap install [install-OPTIONS] tempest
 
+By default, tempest snap will be installed from `latest/stable` channel unless a different
+channel is explicitly specified. This channel is generally compatible with actively developed
+OpenStack releases thanks to the relatively flexible alignment between Tempest and its plugins
+with OpenStack versions. 
+
+For a more tailored installation, users have the option to choose the channel that is designed
+for their cloud environment. For example, in a `yoga` OpenStack cloud, users can install tempest
+snap from the `yoga/stable` channel:
+
+    sudo snap install --channel yoga/stable tempest
+
 ## Plugins
 
 The snap provides all the plugins listed in the [OpenStack release notes] and those
