@@ -10,7 +10,7 @@ jobs:
   update-snapcraft:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: stable/${{ inputs.openstack-release }}
       - name: Install tox
@@ -20,13 +20,7 @@ jobs:
       - name: Update Snapcraft Yaml
         id: update_snapcraft
         run: |
-          # use the script from the default branch so that the changes
-          # made to the script are not needed to be backported to stable
-          # branches
-          git fetch origin
-          git restore --source origin/${{ github.event.repository.default_branch }} tools/
           tox -e release -- -o snap/snapcraft.yaml -r ${{ inputs.openstack-release }}
-          git checkout -- tools/
           git diff --exit-code snap/snapcraft.yaml \
           && echo "create_pr=0" >> $GITHUB_OUTPUT \
           || echo "create_pr=1" >> $GITHUB_OUTPUT
