@@ -52,7 +52,7 @@ parts:
     - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@1.3.0
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/ec2api-tempest-plugin.git@xena-last
-    - git+https://opendev.org/openstack/freezer-tempest-plugin.git@1.3.1
+    - git+https://opendev.org/openstack/freezer-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.2.0
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/ironic-tempest-plugin.git@xena-last
@@ -60,7 +60,7 @@ parts:
     - git+https://opendev.org/openstack/kuryr-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/magnum-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/manila-tempest-plugin.git@xena-last
-    - git+https://opendev.org/openstack/mistral-tempest-plugin.git@1.3.0
+    - git+https://opendev.org/openstack/mistral-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/monasca-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/murano-tempest-plugin.git@xena-last
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@xena-last
