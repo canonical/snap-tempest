@@ -51,7 +51,7 @@ parts:
     - git+https://opendev.org/openstack/cloudkitty-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/congress-tempest-plugin.git@1.0.0
     - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@ussuri-last
-    - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.8.0
+    - git+https://opendev.org/openstack/designate-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/ec2api-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/freezer-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@ussuri-last
