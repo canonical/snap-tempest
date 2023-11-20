@@ -50,7 +50,7 @@ parts:
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@victoria-last
     - git+https://opendev.org/openstack/cloudkitty-tempest-plugin.git@victoria-last
     - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@victoria-last
-    - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.9.0
+    - git+https://opendev.org/openstack/designate-tempest-plugin.git@victoria-last
     - git+https://opendev.org/openstack/ec2api-tempest-plugin.git@victoria-last
     - git+https://opendev.org/openstack/freezer-tempest-plugin.git@victoria-last
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@victoria-last
