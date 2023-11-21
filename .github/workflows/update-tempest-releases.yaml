@@ -9,7 +9,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        release: [antelope, zed, yoga, xena, wallaby, victoria, ussuri]
+        release: [bobcat, antelope, zed, yoga, xena, wallaby, victoria, ussuri]
     uses: ./.github/workflows/update-snapcraft.yaml
     with:
       openstack-release: ${{ matrix.release }}

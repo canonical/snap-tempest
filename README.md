@@ -15,7 +15,8 @@ The tempest snap can be installed directly from the snap store:
 
     sudo snap install [install-OPTIONS] tempest
 
-By default, tempest snap will be installed from `latest/stable` channel unless a different
+By default, tempest snap will be installed from the stable channel of the latest OpenStack
+release, e.g. `2023.1/stable` if `antelope` is the most recent release, unless a different
 channel is explicitly specified. This channel is generally compatible with actively developed
 OpenStack releases thanks to the relatively flexible alignment between Tempest and its plugins
 with OpenStack versions. 
