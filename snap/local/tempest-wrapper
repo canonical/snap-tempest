@@ -5,4 +5,13 @@ tests_dir=$TESTS
 final_args=$(echo $original_args | sed "s|@BUILTIN_TESTLISTS|$tests_dir|g")
 
 IFS=' ' read -a arr <<< "$final_args"
+
+# owerrite the paths (e.g. /snap/tempest/123 or /snap/tempest/x1) define in .stestr.conf with ${SNAP}
+# TODO: extract dir
+regex_string='s/\/snap\/tempest\/\([x,0-9]\+\)/${SNAP}/g'
+stestr_conf=".stestr.conf"
+if [[ -f "$stestr_conf" ]]; then
+    sed -i $regex_string $stestr_conf
+fi
+
 exec ${arr[@]}
