@@ -76,7 +76,7 @@ parts:
     - git+https://opendev.org/openstack/watcher-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/zaqar-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/zun-tempest-plugin.git@ussuri-last
-    - git+https://opendev.org/openinfra/python-tempestconf.git@3.4.1
+    - git+https://opendev.org/openinfra/python-tempestconf.git@3.4.2
     build-packages:
     - libssl-dev
     - libffi-dev
