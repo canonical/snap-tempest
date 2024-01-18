@@ -27,7 +27,7 @@ jobs:
       - name: Create Pull Request
         if: ${{ steps.update_snapcraft.outputs.create_pr == 1 }}
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
         run: |
           git config user.name "Github Action Bot"
           git config user.email "<>"
