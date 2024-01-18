@@ -13,7 +13,7 @@ application that automatically generates a tempest configuration appropriate for
 
 The tempest snap can be installed directly from the snap store:
 
-    sudo snap install [install-OPTIONS] tempest
+    sudo snap install [INSTALL-OPTIONS] tempest
 
 ## Compatibility matrix
 
@@ -101,28 +101,31 @@ tempest run --smoke
 For more information please refer to the [Tempest QuickStart] and [python-tempestconf] documentation.
 
 ## Test Lists
-The tempest snap provides a set of pre-defined test lists with different profiles
-and a mechanism to specify them easily.
+The tempest snap bundles a set of pre-defined test lists.
+They can be found at `/snap/tempest/current/lists/`.
 
-The `@BUILTIN_TESTLISTS` keyword will be automatically replaced by the full path
-of the directory storing the built-in test lists.
+```
+$ ls /snap/tempest/current/lists/
+readonly-quick  refstack-2022.11
 
-**Note**: the single-quotation marks around the test list file path is required
-if the `@BUILTIN_TESTLISTS` keyword is used (in other words, when running tempest
-with a built-in test list file). Failure to do so will result in a wrong path
-error.
+$ tempest run --load-list /snap/tempest/current/lists/readonly-quick
+```
 
 ### readonly-quick
 For quickly verifying the behavior of the target cloud and making sure tempest
-is correctly set up
+is correctly set up.
 
-    tempest run --load-list '@BUILTIN_TESTLISTS/readonly-quick'
+```
+tempest run --load-list /snap/tempest/current/lists/readonly-quick
+```
 
 ### refstack-2022.11
 Version 2022.11 of the [RefStack] guidelines.
 The list includes the required and advisory tests of all platforms.
 
-    tempest run --load-list '@BUILTIN_TESTLISTS/refstack-2022.11'
+```
+tempest run --load-list /snap/tempest/current/lists/refstack-2022.11
+```
 
 [OpenStack Antelope release notes - Tempest plugins]: https://releases.openstack.org/antelope/index.html#tempest-plugins
 [Tempest release notes]: https://docs.openstack.org/releasenotes/tempest/unreleased.html
