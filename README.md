@@ -15,17 +15,28 @@ The tempest snap can be installed directly from the snap store:
 
     sudo snap install [install-OPTIONS] tempest
 
-By default, tempest snap will be installed from the stable channel of the latest OpenStack
-release, e.g. `2023.1/stable` if `antelope` is the most recent release, unless a different
-channel is explicitly specified. This channel is generally compatible with actively developed
-OpenStack releases thanks to the relatively flexible alignment between Tempest and its plugins
-with OpenStack versions. 
+## Compatibility matrix
 
-For a more tailored installation, users have the option to choose the channel that is designed
-for their cloud environment. For example, in a `yoga` OpenStack cloud, users can install tempest
-snap from the `yoga/stable` channel:
+With version numbers not being aligned between Tempest, the various Tempest
+plugins, and OpenStack releases, it is not immediately obvious which set of
+components are compatible with each other.
+
+The Tempest snap simplifies testing OpenStack clouds by providing
+release-specific channels, which package all the correct Tempest and Tempest
+plugin versions for the relative OpenStack release.
+
+The default channel for this snap is the stable channel for the latest current
+OpenStack release, e.g. `2023.1/stable` if Antelope is the most recent release.
+To test older clouds, please specify an alternate channel. For example, in a
+Yoga OpenStack cloud, users can install the Tempest snap from the `yoga/stable`
+channel:
 
     sudo snap install --channel yoga/stable tempest
+
+Further details about the compatibility of the various components are available
+in the upstream documentation:
+- [OpenStack Antelope release notes - Tempest plugins]
+- [Tempest release notes]
 
 ## Plugins
 
@@ -113,7 +124,8 @@ The list includes the required and advisory tests of all platforms.
 
     tempest run --load-list '@BUILTIN_TESTLISTS/refstack-2022.11'
 
-[OpenStack release notes]: https://releases.openstack.org/antelope/index.html#tempest-plugins
+[OpenStack Antelope release notes - Tempest plugins]: https://releases.openstack.org/antelope/index.html#tempest-plugins
+[Tempest release notes]: https://docs.openstack.org/releasenotes/tempest/unreleased.html
 [python-tempestconf]: https://opendev.org/openinfra/python-tempestconf
 [`discover-tempest-config`]: https://docs.opendev.org/openinfra/python-tempestconf/latest/cli/cli_options.html#discover-tempest-config
 [Tempest QuickStart]: https://docs.openstack.org/tempest/latest/overview.html#quickstart
