@@ -5,6 +5,7 @@ tempest, tempest plugins and python-tempestconf release information from
 the OpenStack releases repository and the PYPI RSS feed and modifies the
 snapcraft.yaml file inplace to reflect the changes, should there be any.
 """
+
 import logging
 import shutil
 import sys
@@ -17,6 +18,7 @@ import feedparser
 import pygit2
 import semver
 import yaml
+from packaging import version
 
 logger = logging.getLogger(__name__)
 
@@ -120,7 +122,13 @@ def main(args):
     snapcraft_yaml_path = Path(__file__).parent.parent / "snap" / "snapcraft.yaml"
     snapcraft_yaml = yaml.safe_load(snapcraft_yaml_path.read_text())
 
-    snapcraft_yaml["parts"]["tempest"]["source-tag"] = get_latest_tempest_revision(args.release)
+    # Don't go back to an earlier Tempest version if it has been manually overridden
+    current_tempest_revision = snapcraft_yaml["parts"]["tempest"]["source-tag"]
+    latest_tempest_revision = get_latest_tempest_revision(args.release)
+    if version.parse(latest_tempest_revision) > version.parse(current_tempest_revision):
+        snapcraft_yaml["parts"]["tempest"]["source-tag"] = latest_tempest_revision
+
+    # Update plugin versions unconditionally
     snapcraft_yaml["parts"]["tempest"]["python-packages"] = [
         *ADDITIONAL_REQUIREMENTS,
         *get_latest_plugin_requirements(args.release),
