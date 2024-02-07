@@ -19,6 +19,7 @@ import pygit2
 import semver
 import yaml
 from packaging import version
+from packaging.requirements import InvalidRequirement, Requirement
 
 logger = logging.getLogger(__name__)
 
@@ -28,7 +29,28 @@ OPENDEV_BASE_URL = "git+https://opendev.org"
 OPENSTACK_REPO_URL_FMT = OPENDEV_BASE_URL + "/openstack/{project}.git@{ref}"
 OPENINFRA_REPO_URL_FMT = OPENDEV_BASE_URL + "/openinfra/{project}.git@{ref}"
 PYPI_RSS_FEED_FMT = "https://pypi.org/rss/project/{project}/releases.xml"
-ADDITIONAL_REQUIREMENTS = ["confluent-kafka==1.2.0"]
+MANUAL_REQUIREMENTS = Path(__file__).parents[1] / Path("requirements-manual.txt")
+
+
+def parse_manual_requirements(path):
+    """Parse a requirements.txt path.
+
+    Ingests a path and returns a set of requirement strings.
+    Comments are stripped, and invalid requirements are skipped.
+    """
+    manual_requirements = set()
+
+    if path.exists():
+        with open(path, encoding="utf-8") as req_file:
+            for line in req_file:
+                try:
+                    # Requirement cannot handle comments
+                    req = Requirement(line.split("#", maxsplit=1)[0])
+                    manual_requirements.add(str(req))
+                except InvalidRequirement:
+                    pass
+
+    return manual_requirements
 
 
 def parse_args():
@@ -130,7 +152,7 @@ def main(args):
 
     # Update plugin versions unconditionally
     snapcraft_yaml["parts"]["tempest"]["python-packages"] = [
-        *ADDITIONAL_REQUIREMENTS,
+        *parse_manual_requirements(MANUAL_REQUIREMENTS),
         *get_latest_plugin_requirements(args.release),
         get_latest_tempestconf_requirements(),
     ]
