@@ -11,12 +11,10 @@ import shutil
 import sys
 import tempfile
 from argparse import ArgumentParser
-from functools import cmp_to_key
 from pathlib import Path
 
 import feedparser
 import pygit2
-import semver
 import yaml
 from packaging import version
 from packaging.requirements import InvalidRequirement, Requirement
@@ -25,9 +23,11 @@ logger = logging.getLogger(__name__)
 
 RELEASES_REPO_URL = "https://opendev.org/openstack/releases.git"
 RELEASES_REPO_PATH = Path(tempfile.gettempdir()) / "releases"
-OPENDEV_BASE_URL = "git+https://opendev.org"
-OPENSTACK_REPO_URL_FMT = OPENDEV_BASE_URL + "/openstack/{project}.git@{ref}"
-OPENINFRA_REPO_URL_FMT = OPENDEV_BASE_URL + "/openinfra/{project}.git@{ref}"
+OPENDEV_BASE_URL = "https://opendev.org"
+OPENDEV_GIT_BASE_URL = "git+" + OPENDEV_BASE_URL
+OPENSTACK_TAGS_RSS_FEED_FMT = OPENDEV_BASE_URL + "/{project}/tags.rss"
+OPENSTACK_REPO_URL_FMT = OPENDEV_GIT_BASE_URL + "/{project}.git@{ref}"
+OPENINFRA_REPO_URL_FMT = OPENDEV_GIT_BASE_URL + "/openinfra/{project}.git@{ref}"
 PYPI_RSS_FEED_FMT = "https://pypi.org/rss/project/{project}/releases.xml"
 MANUAL_REQUIREMENTS = Path(__file__).parents[1] / Path("requirements-manual.txt")
 
@@ -73,38 +73,52 @@ def parse_args():
     return parser.parse_args()
 
 
-def get_latest_revision_from_release_file(path):
-    """Get the latest revision from yaml formatted release files."""
-    content = yaml.safe_load(path.read_text())
-    revisions = [release["version"] for release in content["releases"]]
-    return (
-        f"{path.parent.stem}-last"
-        if f"{path.parent.stem}-last" in revisions
-        else max(revisions, key=cmp_to_key(semver.compare))
-    )
+def get_latest_tag_from_feed(url, release):
+    """Return the latest compatible tag for a given OpenStack release and component.
+
+    Every tempest or tempest plugin version is represented by either a standard
+    semver string, or by <openstack release>-last to tag an end of support
+    version. See
+    https://docs.openstack.org/tempest/latest/tempest_and_plugins_compatible_version_policy.html
+
+    We want to return f"{release}-last" if available, and the most recent
+    semver tag otherwise.
+    """
+    feed = feedparser.parse(url)
+    versions_set = set()
+
+    for entry in feed.entries:
+        tag = entry["title"]
+        try:
+            # Try to validate semver
+            versions_set.add(version.parse(tag))
+        except version.InvalidVersion:
+            # Ignore non-semver tags, unless we've found the end of support
+            # version
+            if tag == f"{release}-last":
+                return tag
+
+    return str(max(versions_set))
 
 
 def get_latest_tempest_revision(release):
     """Return the requirements entry for the latest tempest revision."""
-    return get_latest_revision_from_release_file(
-        RELEASES_REPO_PATH / "deliverables" / release / "tempest.yaml"
-    )
+    feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project="openstack/tempest")
+    return get_latest_tag_from_feed(feed_url, release)
 
 
 def get_latest_plugin_requirements(release):
     """Return list of requirements entries for the latest tempest plugin revisions."""
     result = []
-    plugin_release_file_paths = [
-        entry
-        for entry in (RELEASES_REPO_PATH / "deliverables" / release).iterdir()
-        if entry.is_file() and yaml.safe_load(entry.read_text())["type"] == "tempest-plugin"
-    ]
-    for path in plugin_release_file_paths:
-        try:
-            latest_revision = get_latest_revision_from_release_file(path)
-            result.append(OPENSTACK_REPO_URL_FMT.format(project=path.stem, ref=latest_revision))
-        except KeyError as exception:
-            logger.warning("Skipping path:[%s], error:[%s]", path, repr(exception))
+
+    for file_path in (RELEASES_REPO_PATH / "deliverables" / release).iterdir():
+        metadata = yaml.safe_load(file_path.read_text())
+        if metadata["type"] == "tempest-plugin":
+            project = list(metadata["repository-settings"])[0]
+            feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project=project)
+            tag = get_latest_tag_from_feed(feed_url, release)
+            result.append(OPENSTACK_REPO_URL_FMT.format(project=project, ref=tag))
+
     return sorted(result)
 
 
@@ -144,13 +158,8 @@ def main(args):
     snapcraft_yaml_path = Path(__file__).parent.parent / "snap" / "snapcraft.yaml"
     snapcraft_yaml = yaml.safe_load(snapcraft_yaml_path.read_text())
 
-    # Don't go back to an earlier Tempest version if it has been manually overridden
-    current_tempest_revision = snapcraft_yaml["parts"]["tempest"]["source-tag"]
-    latest_tempest_revision = get_latest_tempest_revision(args.release)
-    if version.parse(latest_tempest_revision) > version.parse(current_tempest_revision):
-        snapcraft_yaml["parts"]["tempest"]["source-tag"] = latest_tempest_revision
+    snapcraft_yaml["parts"]["tempest"]["source-tag"] = get_latest_tempest_revision(args.release)
 
-    # Update plugin versions unconditionally
     snapcraft_yaml["parts"]["tempest"]["python-packages"] = [
         *parse_manual_requirements(MANUAL_REQUIREMENTS),
         *get_latest_plugin_requirements(args.release),
