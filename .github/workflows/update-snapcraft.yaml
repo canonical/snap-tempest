@@ -25,7 +25,7 @@ jobs:
           # branches
           git fetch origin
           git restore --source origin/${{ github.event.repository.default_branch }} tools/
-          tox -e release -- -o snap/snapcraft.yaml -r ${{ inputs.openstack-release }}
+          tox -c tools -e release -- -o snap/snapcraft.yaml -r ${{ inputs.openstack-release }}
           git checkout -- tools/
           git diff --exit-code snap/snapcraft.yaml \
           && echo "create_pr=0" >> $GITHUB_OUTPUT \
