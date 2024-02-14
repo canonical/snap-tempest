@@ -49,11 +49,11 @@ parts:
     - git+https://opendev.org/openstack/blazar-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/cloudkitty-tempest-plugin.git@wallaby-last
-    - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@1.2.0
+    - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@2.2.0
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/ec2api-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/freezer-tempest-plugin.git@wallaby-last
-    - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.1.0
+    - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.7.0
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/ironic-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/keystone-tempest-plugin.git@wallaby-last
@@ -66,7 +66,7 @@ parts:
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/octavia-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/oswin-tempest-plugin.git@wallaby-last
-    - git+https://opendev.org/openstack/sahara-tests.git@0.13.0
+    - git+https://opendev.org/openstack/sahara-tests.git@0.18.0
     - git+https://opendev.org/openstack/senlin-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/solum-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@wallaby-last
