@@ -70,7 +70,7 @@ parts:
     - git+https://opendev.org/openstack/senlin-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/solum-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@ussuri-last
-    - git+https://opendev.org/openstack/tempest-horizon.git@1.0.0
+    - git+https://opendev.org/openstack/tempest-horizon.git@1.1.0
     - git+https://opendev.org/openstack/trove-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/vitrage-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/watcher-tempest-plugin.git@ussuri-last
