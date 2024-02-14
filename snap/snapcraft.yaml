@@ -55,7 +55,7 @@ parts:
     - git+https://opendev.org/openstack/freezer-tempest-plugin.git@3.1.0
     - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.7.0
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@2.0.0
-    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.7.0
+    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.8.0
     - git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.13.0
     - git+https://opendev.org/openstack/kuryr-tempest-plugin.git@0.15.1
     - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.1.0
