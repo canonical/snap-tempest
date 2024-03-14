@@ -1,3 +1,6 @@
-# this is needed by the monasca plugin
+# confluent-kafka is needed by the monasca plugin
 # see https://github.com/canonical/snap-tempest/pull/10#issuecomment-1682115758
+# confluent-kafka versions are compatible with the same librdkafka versions,
+# so the version must match that of the base ubuntu release, which is currently jammy.
+# jammy repositories have librdkafka==1.8
 confluent-kafka==1.8.2
