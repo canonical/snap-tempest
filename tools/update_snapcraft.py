@@ -6,6 +6,7 @@ the OpenStack releases repository and the PYPI RSS feed and modifies the
 snapcraft.yaml file inplace to reflect the changes, should there be any.
 """
 
+import io
 import logging
 import shutil
 import sys
@@ -15,11 +16,12 @@ from pathlib import Path
 
 import feedparser
 import pygit2
-import yaml
 from packaging import version
 from packaging.requirements import InvalidRequirement, Requirement
+from ruamel.yaml import YAML
 
 logger = logging.getLogger(__name__)
+yaml = YAML(typ="rt")
 
 RELEASES_REPO_URL = "https://opendev.org/openstack/releases.git"
 RELEASES_REPO_PATH = Path(tempfile.gettempdir()) / "releases"
@@ -112,7 +114,7 @@ def get_latest_plugin_requirements(release):
     result = []
 
     for file_path in (RELEASES_REPO_PATH / "deliverables" / release).iterdir():
-        metadata = yaml.safe_load(file_path.read_text())
+        metadata = yaml.load(file_path.read_text())
         if metadata["type"] == "tempest-plugin":
             project = list(metadata["repository-settings"])[0]
             feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project=project)
@@ -156,7 +158,7 @@ def main(args):
     """Entry point to the application."""
     clone_releases_repository(args.reuse)
     snapcraft_yaml_path = Path(__file__).parent.parent / "snap" / "snapcraft.yaml"
-    snapcraft_yaml = yaml.safe_load(snapcraft_yaml_path.read_text())
+    snapcraft_yaml = yaml.load(snapcraft_yaml_path.read_text())
 
     snapcraft_yaml["parts"]["tempest"]["source-tag"] = get_latest_tempest_revision(args.release)
 
@@ -166,7 +168,9 @@ def main(args):
         get_latest_tempestconf_requirements(),
     ]
 
-    Path(args.output).write_text(yaml.safe_dump(snapcraft_yaml, sort_keys=False), encoding="utf-8")
+    output_str = io.StringIO()
+    yaml.dump(snapcraft_yaml, output_str)
+    Path(args.output).write_text(output_str.getvalue(), encoding="utf-8")
     if not args.reuse:
         shutil.rmtree(RELEASES_REPO_PATH)
     return 0
@@ -181,5 +185,6 @@ def str_presenter(dumper, data):
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, format="[%(asctime)s] %(levelname)s %(message)s")
-    yaml.representer.SafeRepresenter.add_representer(str, str_presenter)
+    yaml.default_flow_style = False
+    yaml.Representer.add_representer(str, str_presenter)
     sys.exit(main(parse_args()))
