@@ -42,13 +42,10 @@ parts:
     plugin: python
     source: https://opendev.org/openstack/tempest.git
     source-type: git
+    # 'source-tag' and 'python-packages' are automatically generated and managed by
+    # tools/update_snapcraft.py, and therefore, should not be manually modified.
     source-tag: 37.0.0
     python-packages:
-      # confluent-kafka is needed by the monasca plugin
-      # see https://github.com/canonical/snap-tempest/pull/10#issuecomment-1682115758
-      # confluent-kafka versions are compatible with the same librdkafka versions,
-      # so the version must match that of the base ubuntu release, which is currently jammy.
-      # jammy repositories have librdkafka==1.8
     - confluent-kafka==1.8.2
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@3.1.0
     - git+https://opendev.org/openstack/blazar-tempest-plugin.git@0.11.0
