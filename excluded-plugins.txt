@@ -1,0 +1,22 @@
+# These less-common plugins have proved to be problematic by attempting to run
+# tests even when the corresponding endpoint isn't available (see for example
+# https://storyboard.openstack.org/#!/story/2011097)
+# They will be excluded from the snap for now
+blazar
+cloudkitty
+cyborg
+ec2api
+freezer
+kuryr
+mistral
+monasca
+murano
+oswin
+sahara
+senlin
+trove
+venus
+vitrage
+watcher
+zaqar
+zed
