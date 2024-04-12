@@ -125,7 +125,7 @@ def get_latest_plugin_requirements(release, excluded_plugins):
         metadata = yaml.load(file_path.read_text())
         if metadata["type"] == "tempest-plugin":
             project = list(metadata["repository-settings"])[0]
-            plugin_name = project.rsplit('/').pop()
+            plugin_name = project.rsplit("/").pop()
             if plugin_name not in excluded_plugins:
                 feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project=project)
                 tag = get_latest_tag_from_feed(feed_url, release)
