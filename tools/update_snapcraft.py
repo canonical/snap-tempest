@@ -123,11 +123,13 @@ def get_latest_plugin_requirements(release, excluded_plugins):
 
     for file_path in (RELEASES_REPO_PATH / "deliverables" / release).iterdir():
         metadata = yaml.load(file_path.read_text())
-        if metadata["type"] == "tempest-plugin" and metadata["team"] not in excluded_plugins:
+        if metadata["type"] == "tempest-plugin":
             project = list(metadata["repository-settings"])[0]
-            feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project=project)
-            tag = get_latest_tag_from_feed(feed_url, release)
-            result.append(OPENSTACK_REPO_URL_FMT.format(project=project, ref=tag))
+            plugin_name = project.rsplit('/').pop()
+            if plugin_name not in excluded_plugins:
+                feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project=project)
+                tag = get_latest_tag_from_feed(feed_url, release)
+                result.append(OPENSTACK_REPO_URL_FMT.format(project=project, ref=tag))
 
     return sorted(result)
 
