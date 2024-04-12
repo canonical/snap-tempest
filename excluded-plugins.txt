@@ -12,7 +12,7 @@ mistral-tempest-plugin
 monasca-tempest-plugin
 murano-tempest-plugin
 oswin-tempest-plugin
-sahara-tempest-plugin
+sahara-tests
 senlin-tempest-plugin
 trove-tempest-plugin
 venus-tempest-plugin
