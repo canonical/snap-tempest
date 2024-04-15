@@ -35,6 +35,25 @@ MANUAL_REQUIREMENTS = Path(__file__).parents[1] / Path("requirements-manual.txt"
 EXCLUDED_PLUGINS_PATH = Path(__file__).parents[1] / Path("excluded-plugins.txt")
 
 
+def parse_excluded_plugins(path):
+    """Parse an excluded-plugins.txt path.
+
+    Strip comments and whitespcea
+    """
+    excluded_plugins = set()
+
+    if path.exists():
+        with open(path, encoding="utf-8") as excl_file:
+            for line in excl_file:
+                plugin = line.split("#", maxsplit=1)[0].strip()
+                excluded_plugins.add(plugin)
+
+    # Lines starting with a comment would have been added here as empty strings
+    excluded_plugins.discard("")
+
+    return excluded_plugins
+
+
 def parse_manual_requirements(path):
     """Parse a requirements.txt path.
 
@@ -62,13 +81,6 @@ def parse_args():
     parser.add_argument("-r", "--release", required=True, type=str, help="OpenStack release")
     parser.add_argument(
         "-o", "--output", default="/dev/stdout", type=str, help="Output file. Defaults to stdout"
-    )
-    parser.add_argument(
-        "-e",
-        "--exclude-file",
-        default=EXCLUDED_PLUGINS_PATH,
-        type=str,
-        help="Path to a list of excluded plugins file.",
     )
     parser.add_argument(
         "--reuse",
@@ -167,7 +179,7 @@ def clone_releases_repository(reuse):
 def main(args):
     """Entry point to the application."""
     clone_releases_repository(args.reuse)
-    excluded_plugins = EXCLUDED_PLUGINS_PATH.read_text().split("\n")
+    excluded_plugins = parse_excluded_plugins(EXCLUDED_PLUGINS_PATH)
     snapcraft_yaml_path = Path(__file__).parent.parent / "snap" / "snapcraft.yaml"
     snapcraft_yaml = yaml.load(snapcraft_yaml_path.read_text())
 
