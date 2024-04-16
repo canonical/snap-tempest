@@ -38,7 +38,7 @@ EXCLUDED_PLUGINS_PATH = Path(__file__).parents[1] / Path("excluded-plugins.txt")
 def parse_excluded_plugins(path):
     """Parse an excluded-plugins.txt path.
 
-    Strip comments and whitespcea
+    Strip comments and whitespace
     """
     excluded_plugins = set()
 
