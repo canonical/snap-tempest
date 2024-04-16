@@ -32,6 +32,26 @@ OPENSTACK_REPO_URL_FMT = OPENDEV_GIT_BASE_URL + "/{project}.git@{ref}"
 OPENINFRA_REPO_URL_FMT = OPENDEV_GIT_BASE_URL + "/openinfra/{project}.git@{ref}"
 PYPI_RSS_FEED_FMT = "https://pypi.org/rss/project/{project}/releases.xml"
 MANUAL_REQUIREMENTS = Path(__file__).parents[1] / Path("requirements-manual.txt")
+EXCLUDED_PLUGINS_PATH = Path(__file__).parents[1] / Path("excluded-plugins.txt")
+
+
+def parse_excluded_plugins(path):
+    """Parse an excluded-plugins.txt path.
+
+    Strip comments and whitespace
+    """
+    excluded_plugins = set()
+
+    if path.exists():
+        with open(path, encoding="utf-8") as excl_file:
+            for line in excl_file:
+                plugin = line.split("#", maxsplit=1)[0].strip()
+                excluded_plugins.add(plugin)
+
+    # Lines starting with a comment would have been added here as empty strings
+    excluded_plugins.discard("")
+
+    return excluded_plugins
 
 
 def parse_manual_requirements(path):
@@ -109,7 +129,7 @@ def get_latest_tempest_revision(release):
     return get_latest_tag_from_feed(feed_url, release)
 
 
-def get_latest_plugin_requirements(release):
+def get_latest_plugin_requirements(release, excluded_plugins):
     """Return list of requirements entries for the latest tempest plugin revisions."""
     result = []
 
@@ -117,9 +137,11 @@ def get_latest_plugin_requirements(release):
         metadata = yaml.load(file_path.read_text())
         if metadata["type"] == "tempest-plugin":
             project = list(metadata["repository-settings"])[0]
-            feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project=project)
-            tag = get_latest_tag_from_feed(feed_url, release)
-            result.append(OPENSTACK_REPO_URL_FMT.format(project=project, ref=tag))
+            plugin_name = project.rsplit("/").pop()
+            if plugin_name not in excluded_plugins:
+                feed_url = OPENSTACK_TAGS_RSS_FEED_FMT.format(project=project)
+                tag = get_latest_tag_from_feed(feed_url, release)
+                result.append(OPENSTACK_REPO_URL_FMT.format(project=project, ref=tag))
 
     return sorted(result)
 
@@ -157,6 +179,7 @@ def clone_releases_repository(reuse):
 def main(args):
     """Entry point to the application."""
     clone_releases_repository(args.reuse)
+    excluded_plugins = parse_excluded_plugins(EXCLUDED_PLUGINS_PATH)
     snapcraft_yaml_path = Path(__file__).parent.parent / "snap" / "snapcraft.yaml"
     snapcraft_yaml = yaml.load(snapcraft_yaml_path.read_text())
 
@@ -164,7 +187,7 @@ def main(args):
 
     snapcraft_yaml["parts"]["tempest"]["python-packages"] = [
         *parse_manual_requirements(MANUAL_REQUIREMENTS),
-        *get_latest_plugin_requirements(args.release),
+        *get_latest_plugin_requirements(args.release, excluded_plugins),
         get_latest_tempestconf_requirements(),
     ]
 

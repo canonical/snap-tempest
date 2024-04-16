@@ -1,0 +1,22 @@
+# These less-common plugins have proved to be problematic by attempting to run
+# tests even when the corresponding endpoint isn't available (see for example
+# https://storyboard.openstack.org/#!/story/2011097)
+# They will be excluded from the snap for now
+blazar-tempest-plugin
+cloudkitty-tempest-plugin
+cyborg-tempest-plugin
+ec2api-tempest-plugin
+freezer-tempest-plugin
+kuryr-tempest-plugin
+mistral-tempest-plugin
+monasca-tempest-plugin
+murano-tempest-plugin
+oswin-tempest-plugin
+sahara-tests
+senlin-tempest-plugin
+trove-tempest-plugin
+venus-tempest-plugin
+vitrage-tempest-plugin
+watcher-tempest-plugin
+zaqar-tempest-plugin
+zun-tempest-plugin
