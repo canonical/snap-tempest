@@ -59,6 +59,7 @@ List of plugins:
 - manila-tempest-plugin
 - neutron-tempest-plugin
 - octavia-tempest-plugin
+- telemetry-tempest-plugin
 
 
 ## Quickstart
