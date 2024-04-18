@@ -40,43 +40,25 @@ in the upstream documentation:
 
 ## Plugins
 
-The snap provides all the plugins listed in the [OpenStack release notes] and those
-cannot be removed or updated. Currently, it is not possible to add new plugins or use
-your own.
+The snap provides all the most common plugins listed in the [OpenStack release notes]
+and those cannot be removed or updated. Currently, it is not possible to add new plugins
+or use your own.
+
+If you need a plugin not listed here please open a feature request.
 
 List of plugins:
 
 - barbican-tempest-plugin
-- blazar-tempest-plugin
 - cinder-tempest-plugin
-- cloudkitty-tempest-plugin
-- cyborg-tempest-plugin
 - designate-tempest-plugin
-- ec2api-tempest-plugin
-- freezer-tempest-plugin
 - glance-tempest-plugin
 - heat-tempest-plugin
 - ironic-tempest-plugin
 - keystone-tempest-plugin
-- kuryr-tempest-plugin
 - magnum-tempest-plugin
 - manila-tempest-plugin
-- mistral-tempest-tests
-- monasca-tempest-plugin
-- murano-tempest-plugin
 - neutron-tempest-plugin
 - octavia-tempest-plugin
-- oswin-tempest-plugin
-- sahara-tests
-- senlin-tempest-plugin
-- solum-tempest-plugin
-- telemetry-tempest-plugin
-- trove-tempest-plugin
-- venus-tempest-plugin
-- vitrage-tempest-plugin
-- watcher-tempest-plugin
-- zaqar-tempest-plugin
-- zun-tempest-plugin
 
 
 ## Quickstart
