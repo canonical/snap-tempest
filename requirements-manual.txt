@@ -1,3 +1,0 @@
-# this is needed by the monasca plugin
-# see https://github.com/canonical/snap-tempest/pull/10#issuecomment-1682115758
-confluent-kafka==1.8.2
