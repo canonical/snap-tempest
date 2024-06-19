@@ -50,7 +50,7 @@ parts:
       # so the version must match that of the base ubuntu release, which is currently jammy.
       # jammy repositories have librdkafka==1.8
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@4.0.0
-    - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.12.0
+    - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.14.0
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.22.0
     - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.8.0
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@2.2.0
@@ -59,8 +59,8 @@ parts:
     - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.4.0
     - git+https://opendev.org/openstack/manila-tempest-plugin.git@2.3.0
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@2.8.0
-    - git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.6.0
-    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.1.0
+    - git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.7.0
+    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.1.1
     - git+https://opendev.org/openinfra/python-tempestconf.git@3.4.2
     build-packages:
     - libssl-dev
