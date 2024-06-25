@@ -46,7 +46,6 @@ parts:
     python-packages:
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@ussuri-last
-    - git+https://opendev.org/openstack/congress-tempest-plugin.git@1.0.0
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@ussuri-last
     - git+https://opendev.org/openstack/ironic-tempest-plugin.git@ussuri-last
