@@ -44,13 +44,13 @@ parts:
     source-type: git
     source-tag: zed-last
     python-packages:
-    - git+https://opendev.org/openstack/barbican-tempest-plugin.git@4.0.0
+    - git+https://opendev.org/openstack/barbican-tempest-plugin.git@zed-last
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@zed-last
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@zed-last
-    - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.8.0
+    - git+https://opendev.org/openstack/glance-tempest-plugin.git@zed-last
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@zed-last
-    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.9.0
-    - git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.16.0
+    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@zed-last
+    - git+https://opendev.org/openstack/keystone-tempest-plugin.git@zed-last
     - git+https://opendev.org/openstack/magnum-tempest-plugin.git@zed-last
     - git+https://opendev.org/openstack/manila-tempest-plugin.git@zed-last
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@zed-last
