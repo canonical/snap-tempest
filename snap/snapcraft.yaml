@@ -10,8 +10,9 @@ license: Apache-2.0
 confinement: strict
 grade: stable
 base: core20
-assumes:
-- command-chain
+# They are commented due to the bug: https://github.com/canonical/snapcraft/issues/4931
+# assumes:
+# - command-chain
 apps:
   tempest:
     command: bin/tempest
