@@ -47,7 +47,7 @@ parts:
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@wallaby-last
-    - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.8.0
+    - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.9.0
     - git+https://opendev.org/openstack/heat-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/ironic-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/keystone-tempest-plugin.git@wallaby-last
@@ -56,7 +56,7 @@ parts:
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/octavia-tempest-plugin.git@wallaby-last
     - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@wallaby-last
-    - git+https://opendev.org/openinfra/python-tempestconf.git@3.4.2
+    - git+https://opendev.org/openinfra/python-tempestconf.git@3.5.0
     build-packages:
     - libssl-dev
     - libffi-dev
