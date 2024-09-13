@@ -3,17 +3,17 @@ import subprocess
 
 def test_tempest_help_string():
     """Test tempest prints the help string."""
-    assert 0 == subprocess.run(["tempest", "--help"]).returncode
+    output = subprocess.check_output(["tempest", "--help"])
+    assert b"usage: tempest" in output
 
 
 def test_tempestconf_help():
     """Test python-tempestconf prints the help."""
-    assert 0 == subprocess.run(["tempest.discover", "--help"]).returncode
-    # TODO: remove this after auto-aliasing is enabled
-    assert (
-        0
-        == subprocess.run(
-            ["sudo", "snap", "alias", "tempest.discover", "discover-tempest-config"]
-        ).returncode
+    # aliases aren't created yet
+    subprocess.check_call(
+        ["sudo", "snap", "alias", "tempest.discover", "discover-tempest-config"]
     )
-    assert 0 == subprocess.run(["discover-tempest-config", "--help"]).returncode
+    output1 = subprocess.check_call(["tempest.discover", "--help"])
+    output2 = subprocess.check_output(["discover-tempest-config", "--help"])
+    assert output1 == output2
+    assert b"usage:" in output2
