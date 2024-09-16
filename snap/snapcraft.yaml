@@ -42,7 +42,7 @@ parts:
     plugin: python
     source: https://opendev.org/openstack/tempest.git
     source-type: git
-    source-tag: 39.0.0
+    source-tag: 40.0.0
     python-packages:
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@4.0.0
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.14.0
