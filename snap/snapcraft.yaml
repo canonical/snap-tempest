@@ -42,7 +42,7 @@ parts:
     plugin: python
     source: https://opendev.org/openstack/tempest.git
     source-type: git
-    source-tag: 39.0.0
+    source-tag: 40.0.0
     python-packages:
       # confluent-kafka is needed by the monasca plugin
       # see https://github.com/canonical/snap-tempest/pull/10#issuecomment-1682115758
