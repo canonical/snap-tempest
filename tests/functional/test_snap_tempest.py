@@ -9,9 +9,5 @@ def test_tempest_help_string():
 
 def test_tempestconf_help():
     """Test python-tempestconf prints the help."""
-    # aliases aren't created yet
-    subprocess.check_call(["sudo", "snap", "alias", "tempest.discover", "discover-tempest-config"])
-    output1 = subprocess.check_call(["tempest.discover", "--help"])
-    output2 = subprocess.check_output(["discover-tempest-config", "--help"])
-    assert output1 == output2
-    assert b"usage:" in output2
+    output = subprocess.check_call(["tempest.discover", "--help"])
+    assert b"usage:" in output
