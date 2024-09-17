@@ -9,5 +9,5 @@ def test_tempest_help_string():
 
 def test_tempestconf_help():
     """Test python-tempestconf prints the help."""
-    output = subprocess.check_call(["tempest.discover", "--help"])
+    output = subprocess.check_output(["tempest.discover", "--help"])
     assert b"usage:" in output
