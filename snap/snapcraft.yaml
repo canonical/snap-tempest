@@ -45,24 +45,22 @@ parts:
     source-type: git
     # 'source-tag' and 'python-packages' are automatically generated and managed by
     # tools/update_snapcraft.py, and therefore, should not be manually modified.
-    source-tag: 39.0.0
+    source-tag: 40.0.0
     python-packages:
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@4.0.0
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.14.0
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.22.0
     - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.9.0
-    - git+https://opendev.org/openstack/heat-tempest-plugin.git@2.2.0
+    - git+https://opendev.org/openstack/heat-tempest-plugin.git@2.3.0
     - git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.10.0
     - git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.16.0
-    - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.4.0
+    - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.5.0
     - git+https://opendev.org/openstack/manila-tempest-plugin.git@2.4.0
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@2.8.0
     - git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.7.0
     - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.2.0
     - git+https://opendev.org/openstack/watcher-tempest-plugin.git@3.1.0
-    # Point to specific commit to include watcher-tempest-plugin discoverability feature
-    # until the commit is released.
-    - git+https://opendev.org/openinfra/python-tempestconf.git@550e43bb45855359264c9e3dd9130ad6219c6f2d
+    - git+https://opendev.org/openinfra/python-tempestconf.git@3.5.0
     build-packages:
     - libssl-dev
     - libffi-dev
