@@ -60,7 +60,9 @@ parts:
     - git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.7.0
     - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.2.0
     - git+https://opendev.org/openstack/watcher-tempest-plugin.git@3.1.0
-    - git+https://opendev.org/openinfra/python-tempestconf.git@3.5.0
+    # Point to specific commit to include watcher-tempest-plugin discoverability feature
+    # until the commit is released.
+    - git+https://opendev.org/openinfra/python-tempestconf.git@550e43bb45855359264c9e3dd9130ad6219c6f2d
     build-packages:
     - libssl-dev
     - libffi-dev
