@@ -1,4 +1,6 @@
-# Components update automation
+# Development
+
+## Components update automation
 
 This repository has to maintain a correct list of components and versions in `snapcraft.yaml`: Tempest itself, python-tempestconf, and the various Tempest plugins we want to bundle. This is particularly important because only specific sets of versions are compatible with each other.
 
