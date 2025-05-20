@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   pull_request:
     types: [opened, synchronize, reopened]
-    branches: [main]
+    branches: [main, stable/*]
     paths-ignore:
       - "**.md"
       - "**.rst"
