@@ -44,6 +44,8 @@ This is the procedure for releasing a new version of the tempest snap and target
 
 1. request a new snap track in the Snapcraft discourse. Here is [the Caracal request][8] as a reference
 1. create a new `stable/caracal` branch in this repository, branching off `main`
+1. create an initial branch protection rule for the new branch (the content doesn't matter so much; the rule will be updated by solutions-engineering-automation later; the automation just can't create the rule first)
+1. in solutions-engineering-automation, open a PR to add a new config file for the new branch (copy an existing config, eg. [`terraform-plans/configs/snap-tempest_stable_zed.tfvars`][14]), and add a new entry to the terraform job list in [`.github/workflows/terraform-apply.yaml`][15]
 1. add the the `caracal` release to the [update-tempest-releases.yaml][9] matrix strategy
 1. wait for the `Update Tempest Releases` workflow to run, or trigger a manual run
 1. review and merge the resulting PR in this repository. Reference PR [#160][10]
@@ -60,3 +62,5 @@ This is the procedure for releasing a new version of the tempest snap and target
 [11]: https://launchpad.net/snap-tempest/+new-snap
 [12]: https://launchpad.net/~tempest-snappers/snap-tempest/+snap/tempest-2023.2
 [13]: https://launchpad.net/~tempest-snappers/snap-tempest/+snap/tempest-latest
+[14]: https://github.com/canonical/solutions-engineering-automation/blob/main/terraform-plans/configs/snap-tempest_stable_zed.tfvars
+[15]: https://github.com/canonical/solutions-engineering-automation/blob/main/.github/workflows/terraform-apply.yaml
