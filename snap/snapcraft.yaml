@@ -57,7 +57,7 @@ parts:
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@yoga-last
     - git+https://opendev.org/openstack/octavia-tempest-plugin.git@yoga-last
     - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@yoga-last
-    - git+https://opendev.org/openinfra/python-tempestconf.git@3.5.1
+    - git+https://opendev.org/openinfra/python-tempestconf.git@3.5.2
     build-packages:
     - libssl-dev
     - libffi-dev
