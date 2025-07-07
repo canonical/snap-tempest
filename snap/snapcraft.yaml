@@ -58,7 +58,7 @@ parts:
     - git+https://opendev.org/openstack/manila-tempest-plugin.git@2.7.0
     - git+https://opendev.org/openstack/neutron-tempest-plugin.git@2.12.0
     - git+https://opendev.org/openstack/octavia-tempest-plugin.git@3.0.0
-    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.5.0
+    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.5.1
     - git+https://opendev.org/openstack/watcher-tempest-plugin.git@3.4.0
     - git+https://opendev.org/openinfra/python-tempestconf.git@3.5.2
     build-packages:
