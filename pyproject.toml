@@ -4,6 +4,51 @@
 # - Open a PR with the changes.
 # - When the PR merges, the soleng-terraform bot will open a PR to the target repositories with the changes.
 
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "snap-tempest"
+version = "2026.1"
+description = "OpenStack Tempest snap wrapper"
+requires-python = ">=3.14"
+dependencies = [
+    "tempest @ git+https://opendev.org/openstack/tempest.git@34.1.0",
+    "confluent-kafka==1.8.2",
+    "barbican-tempest-plugin @ git+https://opendev.org/openstack/barbican-tempest-plugin.git@2.0.0",
+    "blazar-tempest-plugin @ git+https://opendev.org/openstack/blazar-tempest-plugin.git@0.10.1",
+    "cinder-tempest-plugin @ git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.8.1",
+    "cloudkitty-tempest-plugin @ git+https://opendev.org/openstack/cloudkitty-tempest-plugin.git@2.7.1",
+    "cyborg-tempest-plugin @ git+https://opendev.org/openstack/cyborg-tempest-plugin.git@2.1.0",
+    "designate-tempest-plugin @ git+https://opendev.org/openstack/designate-tempest-plugin.git@0.17.0",
+    "ec2api-tempest-plugin @ git+https://opendev.org/openstack/ec2api-tempest-plugin.git@1.6.1",
+    "freezer-tempest-plugin @ git+https://opendev.org/openstack/freezer-tempest-plugin.git@3.0.1",
+    "glance-tempest-plugin @ git+https://opendev.org/openstack/glance-tempest-plugin.git@0.6.0",
+    "heat-tempest-plugin @ git+https://opendev.org/openstack/heat-tempest-plugin.git@1.7.1",
+    "ironic-tempest-plugin @ git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.6.1",
+    "keystone-tempest-plugin @ git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.12.0",
+    "kuryr-tempest-plugin @ git+https://opendev.org/openstack/kuryr-tempest-plugin.git@0.14.1",
+    "magnum-tempest-plugin @ git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.0.0",
+    "manila-tempest-plugin @ git+https://opendev.org/openstack/manila-tempest-plugin.git@1.13.0",
+    "mistral-tempest-tests @ git+https://opendev.org/openstack/mistral-tempest-plugin.git@2.1.1",
+    "monasca-tempest-plugin @ git+https://opendev.org/openstack/monasca-tempest-plugin.git@2.6.0",
+    "murano-tempest-plugin @ git+https://opendev.org/openstack/murano-tempest-plugin.git@2.6.0",
+    "neutron-tempest-plugin @ git+https://opendev.org/openstack/neutron-tempest-plugin.git@2.2.0",
+    "octavia-tempest-plugin @ git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.3.0",
+    "oswin-tempest-plugin @ git+https://opendev.org/openstack/oswin-tempest-plugin.git@2.1.0",
+    "senlin-tempest-plugin @ git+https://opendev.org/openstack/senlin-tempest-plugin.git@1.7.1",
+    "solum-tempest-plugin @ git+https://opendev.org/openstack/solum-tempest-plugin.git@2.6.0",
+    "telemetry-tempest-plugin @ git+https://opendev.org/openstack/telemetry-tempest-plugin.git@1.9.0",
+    "trove-tempest-plugin @ git+https://opendev.org/openstack/trove-tempest-plugin.git@2.0.1",
+    "venus-tempest-plugin @ git+https://opendev.org/openstack/venus-tempest-plugin.git@3.0.0",
+    "vitrage-tempest-plugin @ git+https://opendev.org/openstack/vitrage-tempest-plugin.git@6.1.1",
+    "watcher-tempest-plugin @ git+https://opendev.org/openstack/watcher-tempest-plugin.git@2.6.0",
+    "zaqar-tempest-plugin @ git+https://opendev.org/openstack/zaqar-tempest-plugin.git@1.6.0",
+    "zun-tempest-plugin @ git+https://opendev.org/openstack/zun-tempest-plugin.git@4.7.1",
+    "python-tempestconf @ git+https://opendev.org/openinfra/python-tempestconf.git@3.4.0",
+]
+
 [tool.setuptools_scm]
 
 [tool.flake8]

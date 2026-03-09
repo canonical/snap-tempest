@@ -8,8 +8,9 @@ description: |
   validating an OpenStack deployment.
 license: Apache-2.0
 confinement: strict
-grade: stable
-base: core22
+grade: devel
+base: core26
+build-base: devel
 # They are commented due to the bug: https://github.com/canonical/snapcraft/issues/4931
 # assumes:
 # - command-chain
@@ -25,10 +26,12 @@ apps:
     - home
     environment:
       TESTS: $SNAP_DATA/tempest_test_lists
+      PYTHONPATH: $SNAP/lib/python3.14/site-packages
   discover:
     command: bin/discover-tempest-config
     environment:
       SSL_CERT_FILE: $OS_CACERT
+      PYTHONPATH: $SNAP/lib/python3.14/site-packages
     plugs:
     - home
     - network
@@ -40,45 +43,48 @@ parts:
     organize:
       tempest-wrapper: bin/tempest-wrapper
   tempest:
-    plugin: python
-    source: https://opendev.org/openstack/tempest.git
-    source-type: git
+    plugin: uv
+    source: .
+    build-snaps:
+      - astral-uv
     # 'source-tag' and 'python-packages' are automatically generated and managed by
     # tools/update_snapcraft.py, and therefore, should not be manually modified.
-    source-tag: 34.1.0
-    python-packages:
-    - confluent-kafka==1.8.2
-    - git+https://opendev.org/openstack/barbican-tempest-plugin.git@2.0.0
-    - git+https://opendev.org/openstack/blazar-tempest-plugin.git@0.10.1
-    - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.8.1
-    - git+https://opendev.org/openstack/cloudkitty-tempest-plugin.git@2.7.1
-    - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@2.1.0
-    - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.17.0
-    - git+https://opendev.org/openstack/ec2api-tempest-plugin.git@1.6.1
-    - git+https://opendev.org/openstack/freezer-tempest-plugin.git@3.0.1
-    - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.6.0
-    - git+https://opendev.org/openstack/heat-tempest-plugin.git@1.7.1
-    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.6.1
-    - git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.12.0
-    - git+https://opendev.org/openstack/kuryr-tempest-plugin.git@0.14.1
-    - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.0.0
-    - git+https://opendev.org/openstack/manila-tempest-plugin.git@1.13.0
-    - git+https://opendev.org/openstack/mistral-tempest-plugin.git@2.1.1
-    - git+https://opendev.org/openstack/monasca-tempest-plugin.git@2.6.0
-    - git+https://opendev.org/openstack/murano-tempest-plugin.git@2.6.0
-    - git+https://opendev.org/openstack/neutron-tempest-plugin.git@2.2.0
-    - git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.3.0
-    - git+https://opendev.org/openstack/oswin-tempest-plugin.git@2.1.0
-    - git+https://opendev.org/openstack/senlin-tempest-plugin.git@1.7.1
-    - git+https://opendev.org/openstack/solum-tempest-plugin.git@2.6.0
-    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@1.9.0
-    - git+https://opendev.org/openstack/trove-tempest-plugin.git@2.0.1
-    - git+https://opendev.org/openstack/venus-tempest-plugin.git@3.0.0
-    - git+https://opendev.org/openstack/vitrage-tempest-plugin.git@6.1.1
-    - git+https://opendev.org/openstack/watcher-tempest-plugin.git@2.6.0
-    - git+https://opendev.org/openstack/zaqar-tempest-plugin.git@1.6.0
-    - git+https://opendev.org/openstack/zun-tempest-plugin.git@4.7.1
-    - git+https://opendev.org/openinfra/python-tempestconf.git@3.4.0
+    # These are kept here for reference and tooling; the uv plugin reads from
+    # pyproject.toml + uv.lock instead of python-packages.
+    # source-tag: 34.1.0
+    # python-packages:
+    # - confluent-kafka==1.8.2
+    # - git+https://opendev.org/openstack/barbican-tempest-plugin.git@2.0.0
+    # - git+https://opendev.org/openstack/blazar-tempest-plugin.git@0.10.1
+    # - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.8.1
+    # - git+https://opendev.org/openstack/cloudkitty-tempest-plugin.git@2.7.1
+    # - git+https://opendev.org/openstack/cyborg-tempest-plugin.git@2.1.0
+    # - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.17.0
+    # - git+https://opendev.org/openstack/ec2api-tempest-plugin.git@1.6.1
+    # - git+https://opendev.org/openstack/freezer-tempest-plugin.git@3.0.1
+    # - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.6.0
+    # - git+https://opendev.org/openstack/heat-tempest-plugin.git@1.7.1
+    # - git+https://opendev.org/openstack/ironic-tempest-plugin.git@2.6.1
+    # - git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.12.0
+    # - git+https://opendev.org/openstack/kuryr-tempest-plugin.git@0.14.1
+    # - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.0.0
+    # - git+https://opendev.org/openstack/manila-tempest-plugin.git@1.13.0
+    # - git+https://opendev.org/openstack/mistral-tempest-plugin.git@2.1.1
+    # - git+https://opendev.org/openstack/monasca-tempest-plugin.git@2.6.0
+    # - git+https://opendev.org/openstack/murano-tempest-plugin.git@2.6.0
+    # - git+https://opendev.org/openstack/neutron-tempest-plugin.git@2.2.0
+    # - git+https://opendev.org/openstack/octavia-tempest-plugin.git@2.3.0
+    # - git+https://opendev.org/openstack/oswin-tempest-plugin.git@2.1.0
+    # - git+https://opendev.org/openstack/senlin-tempest-plugin.git@1.7.1
+    # - git+https://opendev.org/openstack/solum-tempest-plugin.git@2.6.0
+    # - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@1.9.0
+    # - git+https://opendev.org/openstack/trove-tempest-plugin.git@2.0.1
+    # - git+https://opendev.org/openstack/venus-tempest-plugin.git@3.0.0
+    # - git+https://opendev.org/openstack/vitrage-tempest-plugin.git@6.1.1
+    # - git+https://opendev.org/openstack/watcher-tempest-plugin.git@2.6.0
+    # - git+https://opendev.org/openstack/zaqar-tempest-plugin.git@1.6.0
+    # - git+https://opendev.org/openstack/zun-tempest-plugin.git@4.7.1
+    # - git+https://opendev.org/openinfra/python-tempestconf.git@3.4.0
     build-packages:
     - libssl-dev
     - libffi-dev
@@ -90,9 +96,14 @@ parts:
     - cargo
     - pkg-config
     - git
+    stage-packages:
+      - python3-venv
     override-prime: |
       craftctl default
-      craftctl set version="$(tempest --version | awk '{print $2}')"
+      # Remove dangling venv symlinks pointing into the build directory.
+      rm -f $CRAFT_PRIME/bin/python
+      rm -f $CRAFT_PRIME/bin/python3.14
+      craftctl set version="$(PYTHONPATH=$CRAFT_PRIME/lib/python3.14/site-packages $CRAFT_PRIME/bin/tempest --version | awk '{print $2}')"
       mkdir -p usr/share/bash-completion/completions
-      bin/tempest complete > usr/share/bash-completion/completions/tempest
+      PYTHONPATH=$CRAFT_PRIME/lib/python3.14/site-packages $CRAFT_PRIME/bin/tempest complete > usr/share/bash-completion/completions/tempest
       echo "complete -F _tempest tempest.tempest" >> usr/share/bash-completion/completions/tempest
