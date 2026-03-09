@@ -1,4 +1,5 @@
 name: tempest
+version: '2026.1'
 adopt-info: tempest
 summary: OpenStack Integration Test Suite
 description: |
@@ -8,8 +9,9 @@ description: |
   validating an OpenStack deployment.
 license: Apache-2.0
 confinement: strict
-grade: stable
-base: core22
+grade: devel
+base: core26
+build-base: devel
 # They are commented due to the bug: https://github.com/canonical/snapcraft/issues/4931
 # assumes:
 # - command-chain
@@ -25,10 +27,12 @@ apps:
     - home
     environment:
       TESTS: $SNAP_DATA/tempest_test_lists
+      PYTHONPATH: $SNAP/lib/python3.14/site-packages
   discover:
     command: bin/discover-tempest-config
     environment:
       SSL_CERT_FILE: $OS_CACERT
+      PYTHONPATH: $SNAP/lib/python3.14/site-packages
     plugs:
     - home
     - network
@@ -90,9 +94,30 @@ parts:
     - cargo
     - pkg-config
     - git
+    # Workaround: the python plugin does not yet know the interpreter for
+    # core26 (python3.14). Manually create a venv and install packages,
+    # reading python-packages from this file so snap-tempest-automation
+    # can continue to update them as before.
+    override-build: |
+      python3 -m venv ${CRAFT_PART_INSTALL}
+      ${CRAFT_PART_INSTALL}/bin/pip install ${CRAFT_PART_SRC}
+      ${CRAFT_PART_INSTALL}/bin/python3 << PYEOF
+      import yaml, subprocess, sys
+      pip = sys.prefix + "/bin/pip"
+      with open("${CRAFT_PROJECT_DIR}/snap/snapcraft.yaml") as f:
+          data = yaml.safe_load(f)
+      for pkg in data["parts"]["tempest"].get("python-packages", []):
+          subprocess.check_call([pip, "install", pkg])
+      PYEOF
+      # Fix shebangs to use env python3 so they work at snap runtime
+      find ${CRAFT_PART_INSTALL}/bin -maxdepth 1 -type f -exec sed -i '1s|^#!.*python.*|#!/usr/bin/env python3|' {} +
     override-prime: |
       craftctl default
-      craftctl set version="$(tempest --version | awk '{print $2}')"
+      # Remove dangling venv symlinks pointing into the build directory.
+      rm -f $CRAFT_PRIME/bin/python
+      rm -f $CRAFT_PRIME/bin/python3
+      rm -f $CRAFT_PRIME/bin/python3.14
+      craftctl set version="$(PYTHONPATH=$CRAFT_PRIME/lib/python3.14/site-packages python3 -c "from importlib.metadata import version; print(version('tempest'))")"
       mkdir -p usr/share/bash-completion/completions
-      bin/tempest complete > usr/share/bash-completion/completions/tempest
+      PYTHONPATH=$CRAFT_PRIME/lib/python3.14/site-packages $CRAFT_PRIME/bin/tempest complete > usr/share/bash-completion/completions/tempest
       echo "complete -F _tempest tempest.tempest" >> usr/share/bash-completion/completions/tempest
