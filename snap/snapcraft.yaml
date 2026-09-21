@@ -9,12 +9,7 @@ description: |
   validating an OpenStack deployment.
 license: Apache-2.0
 confinement: strict
-grade: devel
 base: core26
-build-base: devel
-# They are commented due to the bug: https://github.com/canonical/snapcraft/issues/4931
-# assumes:
-# - command-chain
 apps:
   tempest:
     command: bin/tempest
@@ -94,10 +89,10 @@ parts:
     - cargo
     - pkg-config
     - git
-    # Workaround: the python plugin does not yet know the interpreter for
-    # core26 (python3.14). Manually create a venv and install packages,
-    # reading python-packages from this file so snap-tempest-automation
-    # can continue to update them as before.
+    # Workaround: the python plugin does not yet know the interpreter for core26 (python3.14).
+    # Manually create a venv and install packages, reading python-packages from this file so
+    # snap-tempest-automation can continue to update them as before. see
+    # https://github.com/canonical/snapcraft/issues/6411
     override-build: |
       python3 -m venv ${CRAFT_PART_INSTALL}
       ${CRAFT_PART_INSTALL}/bin/pip install ${CRAFT_PART_SRC}
