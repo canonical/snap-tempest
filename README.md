@@ -107,6 +107,14 @@ The list includes the required and advisory tests of all platforms.
 
     tempest run --load-list '@BUILTIN_TESTLISTS/refstack-2022.11'
 
+## Contributing
+
+If you want to contribute to this project, please refer to the [CONTRIBUTING.md](CONTRIBUTING.md)
+file for more information.
+
+If you want to create a new tempest release, please refer to the [DEVELOPMENT.md](DEVELOPMENT.md)
+and consult with the repository maintainers by opening an issue in this repository.
+
 [OpenStack Antelope release notes - Tempest plugins]: https://releases.openstack.org/antelope/index.html#tempest-plugins
 [Tempest release notes]: https://docs.openstack.org/releasenotes/tempest/unreleased.html
 [python-tempestconf]: https://opendev.org/openinfra/python-tempestconf
