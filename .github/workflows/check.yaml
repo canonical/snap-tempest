@@ -91,7 +91,7 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         python -m pip install 'tox<5'
-        sudo snap install snapcraft --classic --channel latest/stable
+        sudo snap install snapcraft --classic --channel 8.x/stable  # for core20
 
     - name: Initialize lxd
       uses: canonical/setup-lxd@v0.1.1
