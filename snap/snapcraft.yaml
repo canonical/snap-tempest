@@ -9,7 +9,7 @@ description: |
 license: Apache-2.0
 confinement: strict
 grade: stable
-base: core22
+base: core24
 # They are commented due to the bug: https://github.com/canonical/snapcraft/issues/4931
 # assumes:
 # - command-chain
