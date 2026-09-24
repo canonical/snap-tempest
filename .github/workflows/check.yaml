@@ -97,7 +97,7 @@ jobs:
       uses: canonical/setup-lxd@v0.1.1
 
     - name: Build the snap
-      run: snapcraft pack
+      run: snapcraft pack --use-lxd
 
     - name: Run functional tests
       run: tox -e func
