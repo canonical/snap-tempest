@@ -80,7 +80,7 @@ parts:
       # Workaround: the python plugin in core26 does not set the shebang to the correct path for
       # python3, so we need to fix it manually.
       # See https://github.com/canonical/snapcraft/issues/6411
-      find ${CRAFT_PART_INSTALL}/bin -maxdepth 1 -type f -exec sed -i '1{/^#!.*python3\?$/s|^.*$|#!/root/prime/bin/python3|}' {} +
+      find ${CRAFT_PART_INSTALL}/bin -maxdepth 1 -type f -exec sed -i "1{/^#!.*python3\?$/s|^.*$|#!${CRAFT_PRIME}/bin/python3|}" {} +
       craftctl set version="$(tempest --version | awk '{print $2}')"
       mkdir -p usr/share/bash-completion/completions
       tempest complete > usr/share/bash-completion/completions/tempest
