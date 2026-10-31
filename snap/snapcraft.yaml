@@ -43,23 +43,25 @@ parts:
     plugin: python
     source: https://opendev.org/openstack/tempest.git
     source-type: git
-    # 'source-tag' and 'python-packages' are automatically generated and managed by
-    # tools/update_snapcraft.py, and therefore, should not be manually modified.
-    source-tag: 47.0.0
+    # Pinned manually, dalmatian is not updated by snap-tempest-automation. Upstream recorded
+    # 2024.2-last in openstack/releases (deliverables/dalmatian/*.yaml) but hasn't pushed the git
+    # tags, so these are the release tags pointing at the recorded 2024.2-last hashes.
+    # Issue: https://github.com/canonical/snap-tempest-automation/issues/39
+    source-tag: 46.3.0
     python-packages:
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@4.5.0
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@1.22.0
-    - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.30.0
+    - git+https://opendev.org/openstack/designate-tempest-plugin.git@0.29.0
     - git+https://opendev.org/openstack/glance-tempest-plugin.git@0.16.0
-    - git+https://opendev.org/openstack/heat-tempest-plugin.git@3.0.0
-    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@3.2.0
+    - git+https://opendev.org/openstack/heat-tempest-plugin.git@2.8.0
+    - git+https://opendev.org/openstack/ironic-tempest-plugin.git@3.1.0
     - git+https://opendev.org/openstack/keystone-tempest-plugin.git@0.21.0
-    - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.12.0
-    - git+https://opendev.org/openstack/manila-tempest-plugin.git@3.2.0
-    - git+https://opendev.org/openstack/neutron-tempest-plugin.git@3.3.0
-    - git+https://opendev.org/openstack/octavia-tempest-plugin.git@3.5.0
-    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.11.0
-    - git+https://opendev.org/openstack/watcher-tempest-plugin.git@3.9.0
+    - git+https://opendev.org/openstack/magnum-tempest-plugin.git@2.11.0
+    - git+https://opendev.org/openstack/manila-tempest-plugin.git@3.1.0
+    - git+https://opendev.org/openstack/neutron-tempest-plugin.git@3.2.0
+    - git+https://opendev.org/openstack/octavia-tempest-plugin.git@3.4.0
+    - git+https://opendev.org/openstack/telemetry-tempest-plugin.git@2.10.0
+    - git+https://opendev.org/openstack/watcher-tempest-plugin.git@3.8.0
     - git+https://opendev.org/openinfra/python-tempestconf.git@3.5.4
     build-packages:
     - libssl-dev
