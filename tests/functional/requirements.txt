@@ -1,0 +1,3 @@
+# pytest-operator caps pytest-asyncio<0.23, which breaks on pytest>=9.2
+# Drop when pytest-operator lifts the cap.
+pytest<9.2
