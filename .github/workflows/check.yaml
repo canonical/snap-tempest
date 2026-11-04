@@ -98,3 +98,6 @@ jobs:
 
     - name: Build the snap
       run: snapcraft pack
+
+    - name: Run functional tests
+      run: tox -e func
