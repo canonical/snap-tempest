@@ -47,6 +47,7 @@ parts:
     # tools/update_snapcraft.py, and therefore, should not be manually modified.
     source-tag: 2024.1-last
     python-packages:
+    - oslo.utils<10.0.0
     - git+https://opendev.org/openstack/barbican-tempest-plugin.git@2024.1-last
     - git+https://opendev.org/openstack/cinder-tempest-plugin.git@2024.1-last
     - git+https://opendev.org/openstack/designate-tempest-plugin.git@2024.1-last

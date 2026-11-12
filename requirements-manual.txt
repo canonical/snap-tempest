@@ -1,0 +1,3 @@
+# Tempest 2024.1-last (46.0.0) imports oslo_utils.secretutils.md5,
+# which oslo.utils 10.0.0 removed.
+oslo.utils<10.0.0
