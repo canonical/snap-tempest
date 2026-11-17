@@ -29,6 +29,13 @@ if broken:
     sys.exit(f"failed to load from group {group!r}: {broken}")
 """
 
+LIST_TESTS = """
+tmp=$(mktemp -d)
+trap 'rm -rf "$tmp"' EXIT
+tempest init --workspace-path "$tmp/workspace.yaml" "$tmp/ws" >/dev/null 2>&1 || exit 1
+cd "$tmp/ws" && tempest run --list-tests
+"""
+
 
 def load_entry_points(group, instantiate):
     """Load every entry point of a group inside the snap and return the process result."""
@@ -50,3 +57,13 @@ def test_tempest_plugins_load():
     """Test every bundled tempest plugin imports and instantiates, as tempest run does."""
     result = load_entry_points("tempest.test_plugins", instantiate=True)
     assert result.returncode == 0, result.stderr
+
+
+def test_tempest_discovers_tests():
+    """Test tempest run imports every tempest and plugin test module during discovery."""
+    result = subprocess.run(
+        ["snap", "run", "--shell", "tempest", "-c", LIST_TESTS],
+        capture_output=True,
+        text=True,
+    )
+    assert result.returncode == 0, result.stdout[-5000:] + result.stderr[-5000:]
